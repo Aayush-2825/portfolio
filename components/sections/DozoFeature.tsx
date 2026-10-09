@@ -129,9 +129,6 @@ export default function DozoFeature() {
   const [pinned, setPinned] = useState<number | null>(null);
   const [openFeature, setOpenFeature] = useState<number>(0);
 
-  const title = useInView<HTMLHeadingElement>(0.3);
-  const arch = useInView<HTMLDivElement>(0.25);
-
   // Cursor spotlight across the whole section
   const handleSectionMove = (e: React.MouseEvent<HTMLElement>) => {
     const el = sectionRef.current;
@@ -168,6 +165,7 @@ export default function DozoFeature() {
   if (!dozo) return null;
 
   const current = nodes[activeNode];
+  const dozoImage = dozo.images[0];
 
   return (
     <section
@@ -181,9 +179,6 @@ export default function DozoFeature() {
       {/* Cursor spotlight */}
       <div className="dozo-spotlight pointer-events-none absolute inset-0" />
 
-      {/* Orange edge glow */}
-      <div className="dozo-float pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-accent/10 blur-[140px]" />
-
       <div className="relative mx-auto max-w-[1500px] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         {/* ───────────────── HEADER ───────────────── */}
 
@@ -191,36 +186,35 @@ export default function DozoFeature() {
           <div>
             <Reveal>
               <div className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                <span className="text-accent">03</span>
-                <span className="dozo-line h-px w-10 bg-border" />
-                Featured build
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                Featured Platform
               </div>
             </Reveal>
 
-            <h2
-              ref={title.ref}
-              data-visible={title.inView}
-              aria-label="DOZO."
-              className="font-heading text-[clamp(5rem,15vw,14rem)] font-semibold leading-[0.72] tracking-[-0.075em] text-foreground"
-            >
-              {"DOZO".split("").map((char, i) => (
-                <span
-                  key={i}
-                  aria-hidden
-                  className="dozo-char"
-                  style={{ "--d": `${i * 90}ms` } as CSSProperties}
-                >
-                  {char}
-                </span>
-              ))}
-              <span
-                aria-hidden
-                className="dozo-char text-accent"
-                style={{ "--d": "420ms" } as CSSProperties}
+            <Reveal>
+              <h2
+                aria-label="DOZO."
+                className="font-heading text-[clamp(5rem,15vw,14rem)] font-semibold leading-[0.72] tracking-[-0.075em] text-foreground"
               >
-                .
-              </span>
-            </h2>
+                {"DOZO".split("").map((char, i) => (
+                  <span
+                    key={i}
+                    aria-hidden
+                    className="dozo-char"
+                    style={{ "--d": `${i * 90}ms` } as CSSProperties}
+                  >
+                    {char}
+                  </span>
+                ))}
+                <span
+                  aria-hidden
+                  className="dozo-char text-accent"
+                  style={{ "--d": "420ms" } as CSSProperties}
+                >
+                  .
+                </span>
+              </h2>
+            </Reveal>
           </div>
 
           <a
@@ -247,10 +241,10 @@ export default function DozoFeature() {
               onMouseLeave={resetTilt}
               className="dozo-tilt group relative aspect-[16/9] overflow-hidden border border-border bg-surface"
             >
-              {dozo.image && (
+              {dozoImage && (
                 <Image
-                  src={dozo.image}
-                  alt="DOZO platform"
+                  src={dozoImage.src}
+                  alt={dozoImage.alt}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
@@ -334,11 +328,7 @@ export default function DozoFeature() {
 
         {/* ───────────────── ARCHITECTURE ───────────────── */}
 
-        <div
-          ref={arch.ref}
-          data-visible={arch.inView}
-          className="reveal relative mt-20 overflow-hidden border border-border bg-surface"
-        >
+        <Reveal className="relative mt-20 overflow-hidden border border-border bg-surface">
           <div className="absolute inset-0 architecture-grid opacity-40" />
 
           <div className="relative p-7 sm:p-10 lg:p-14">
@@ -367,7 +357,7 @@ export default function DozoFeature() {
                   index={i}
                   active={activeNode === i}
                   pinned={pinned === i}
-                  visible={arch.inView}
+                  visible
                   onHover={() => pinned === null && setActiveNode(i)}
                   onClick={() => {
                     setActiveNode(i);
@@ -403,7 +393,7 @@ export default function DozoFeature() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* ───────────────── FEATURES ───────────────── */}
 

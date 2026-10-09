@@ -3,15 +3,30 @@ export type ProjectStatus = "LIVE" | "IN_PROGRESS" | "RESEARCH" | "EXPERIMENTAL"
 export type Feature = { label: string; built: boolean };
 export type Node = { id: string; label: string };
 
+export type TechnicalDecision = {
+  choice: string;
+  tradeoff: string;
+};
+
 export type Project = {
   slug: string;
   name: string;
+  title?: string;
+  summary?: string;
   status: ProjectStatus;
   category: string;
   oneLiner: string;
   role?: string;
   stack: string[];
-  links: { live?: string; repo?: string };
+  problem?: string;
+  technicalDecision?: TechnicalDecision;
+  metrics?: string[];
+  links: {
+    live?: string;
+    repo?: string;
+    demo?: string;
+    writeup?: string;
+  };
   images: { src: string; alt: string }[];
   highlights?: string[];
   caseStudy?: {

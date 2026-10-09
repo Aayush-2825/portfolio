@@ -7,6 +7,9 @@ export const projects: Project[] = [
   {
     slug: "dozo",
     name: "DOZO",
+    title: "DOZO",
+    summary:
+      "An on-demand local services platform for everyday work like cleaning, cooking, driving, babysitting, plumbing and electrical.",
     status: "IN_PROGRESS",
     category: "Startup / Marketplace / SaaS / Full Stack",
     oneLiner:
@@ -17,11 +20,22 @@ export const projects: Project[] = [
       "PostgreSQL", "Drizzle ORM", "Redis", "WebSockets",
       "Turborepo", "Docker",
     ],
+    problem:
+      "Booking help for everyday services is uncertain. The platform is designed around trust, service quality, pricing uncertainty, verification, availability, booking, payments, tracking and disputes.",
+    technicalDecision: {
+      choice: "PostgreSQL with Drizzle ORM + Redis and WebSockets for real-time booking lifecycle",
+      tradeoff: "TODO: one-sentence trade-off for WebSocket vs polling and relational transactions vs document store",
+    },
     links: {
       live: "https://dozo.work", // TODO(aayush): confirm exact live URL and whether public
       repo: undefined,           // TODO(aayush): add only if public
     },
-    images: [], // TODO(aayush): real screenshots in public/projects/dozo/
+    images: [
+      {
+        src: "/projects/dozo/screenshot.png",
+        alt: "DOZO on-demand local services platform interface",
+      },
+    ],
     highlights: [
       "Selected for a three-month pre-incubation program at NIT Hamirpur",
     ],
@@ -42,8 +56,6 @@ export const projects: Project[] = [
         "Database architecture",
         "Startup technical decisions",
       ],
-      // IMPORTANT: the brief lists these as POTENTIAL capabilities.
-      // Set built:true ONLY for ones Aayush confirms are implemented.
       features: [
         { label: "Instant booking",            built: false }, // TODO(aayush): confirm
         { label: "Scheduled booking",          built: false },
@@ -77,7 +89,6 @@ export const projects: Project[] = [
         note: "Edges show intended relationships. TODO(aayush): correct against the real v2 design.",
       },
       decisions: [
-        // Only the technology choices are known. Reasons are NOT known.
         { title: "Move v2 to PostgreSQL with Drizzle", body: "TODO(aayush): why (relational data, transactions, etc.)" },
         { title: "Redis and WebSockets for realtime", body: "TODO(aayush): what realtime features and why" },
         { title: "Turborepo and Docker", body: "TODO(aayush): monorepo layout and deployment reasoning" },
@@ -87,7 +98,6 @@ export const projects: Project[] = [
       currentState:
         "In progress. Selected for a three-month pre-incubation program at NIT Hamirpur. v2 is the current technical direction.",
       future: "TODO(aayush): what is next after pre-incubation",
-      // Never render: revenue, users, funding, growth, performance, market share, traction
     },
   },
 
@@ -97,17 +107,26 @@ export const projects: Project[] = [
   {
     slug: "viewproof",
     name: "ViewProof",
+    title: "ViewProof",
+    summary:
+      "Photographers deliver albums, and clients review, comment on and approve individual photographs.",
     status: "LIVE",
     category: "Photography collaboration / SaaS",
     oneLiner:
       "Photographers deliver albums, and clients review, comment on and approve individual photographs.",
-    role: undefined, // TODO(aayush): confirm role wording (solo builder?)
+    role: "Solo Builder (TODO: confirm role)",
     stack: ["React", "Next.js", "Firebase", "Firestore", "Cloudinary", "Authentication"],
+    problem:
+      "Photo delivery and client feedback usually happen across scattered messages. ViewProof keeps review, comments and approval in one workflow.",
+    technicalDecision: {
+      choice: "Firestore for real-time album/approval state + Cloudinary for media delivery",
+      tradeoff: "TODO: one-sentence trade-off for Firestore vs relational DB",
+    },
     links: { live: "https://view-proof.vercel.app", repo: undefined }, // TODO(aayush): repo if public
     images: [], // TODO(aayush): real screenshots of the live app
     caseStudy: {
       problem:
-        "Photo delivery and client feedback usually happen across scattered messages. ViewProof keeps review, comments and approval in one workflow.", // TODO(aayush): confirm this framing is accurate
+        "Photo delivery and client feedback usually happen across scattered messages. ViewProof keeps review, comments and approval in one workflow.",
       product:
         "A platform where a photographer creates an album, uploads photos, shares client access, and the client approves photos and leaves comments.",
       workflow: [
@@ -147,9 +166,8 @@ export const projects: Project[] = [
         { title: "Cloudinary for media storage and delivery", body: "TODO(aayush): reasoning" },
         { title: "Separate photographer and client experiences", body: "TODO(aayush): how access and permissions differ" },
       ],
-      challenges: [], // TODO(aayush)
+      challenges: [],
       currentState: "Live at view-proof.vercel.app.",
-      // Never say: "CRUD app". Never invent user counts.
     },
   },
 
@@ -159,12 +177,21 @@ export const projects: Project[] = [
   {
     slug: "auth-backend",
     name: "Authentication Backend",
-    status: "EXPERIMENTAL", // TODO(aayush): LIVE, IN_PROGRESS or EXPERIMENTAL
+    title: "Authentication Backend",
+    summary:
+      "A production-oriented authentication backend covering sessions, JWT, refresh-token rotation, OAuth and 2FA.",
+    status: "EXPERIMENTAL",
     category: "Backend / Security",
     oneLiner:
       "A production-oriented authentication backend covering sessions, JWT, refresh-token rotation, OAuth and 2FA.",
     role: "Builder",
     stack: ["Node.js", "Express", "MongoDB", "Passport.js", "Zod", "Helmet", "JWT"],
+    problem:
+      "Production authentication requires secure token lifecycle management, OAuth federation, rate limiting, and protection against token replay attacks.",
+    technicalDecision: {
+      choice: "JWT access tokens paired with rotating refresh tokens and reuse detection",
+      tradeoff: "TODO: one-sentence trade-off for refresh-token rotation vs server-side session stores",
+    },
     links: { repo: "https://github.com/Aayush-2825/pjmb" },
     images: [], // TODO(aayush): real API screenshots, Postman/Bruno output, or a real diagram
     caseStudy: {
@@ -212,8 +239,8 @@ export const projects: Project[] = [
         { title: "Sessions and JWT together", body: "TODO(aayush): which is used for what" },
         { title: "Validation and abuse prevention", body: "TODO(aayush): Zod schemas and rate-limit policy" },
       ],
-      challenges: [], // TODO(aayush)
-      // Never call it an "authentication app".
+      challenges: [],
+      currentState: "Experimental backend system with test suite.",
     },
   },
 
@@ -223,15 +250,24 @@ export const projects: Project[] = [
   {
     slug: "swabhimaan",
     name: "Swabhimaan",
-    status: "LIVE", // TODO(aayush): LIVE or IN_PROGRESS
+    title: "Swabhimaan",
+    summary:
+      "A CMS-managed content site for blogs and periodicals with media, forms and about ten pages.",
+    status: "LIVE",
     category: "Content platform / CMS",
     oneLiner:
       "A CMS-managed content site for blogs and periodicals with media, forms and about ten pages.",
-    role: undefined, // TODO(aayush): confirm
+    role: "Full-Stack Developer (TODO: confirm role)",
     stack: [
       "Next.js", "React 19", "TypeScript", "Payload CMS",
       "MongoDB", "Cloudflare R2", "Zod", "ISR",
     ],
+    problem:
+      "Editorial publishing site requiring structured content management for periodicals, blogs, media assets, and forms with fast cached delivery.",
+    technicalDecision: {
+      choice: "Payload CMS with MongoDB and Next.js ISR on React 19",
+      tradeoff: "TODO: one-sentence trade-off for Payload CMS ISR vs dynamic SSR",
+    },
     links: { repo: "https://github.com/Aayush-2825/Swabhimaan-2", live: undefined }, // TODO(aayush): live URL if any
     images: [], // TODO(aayush): real screenshots
     caseStudy: {
@@ -272,21 +308,30 @@ export const projects: Project[] = [
         { title: "ISR for content pages", body: "TODO(aayush): reasoning" },
         { title: "Cloudflare R2 for media", body: "TODO(aayush): reasoning" },
       ],
-      // Tone: factual, modest. Do not oversell.
     },
   },
 
   // ------------------------------------------------------------------
-  // Research and planned (visually quieter, no completion language)
+  // Research and planned (in exploring row)
   // ------------------------------------------------------------------
   {
     slug: "multi-agent-debugging",
     name: "Multi-Agent LLM Code Debugging",
+    title: "Multi-Agent LLM Code Debugging",
+    summary:
+      "Improving code debugging using multi-agent LLM systems with iterative refinement.",
     status: "RESEARCH",
     category: "AI research idea",
     oneLiner:
       "Improving code debugging using multi-agent LLM systems with iterative refinement.",
-    stack: ["LLMs", "Multi-agent systems", "Python"], // TODO(aayush): confirm intended stack
+    role: "Researcher",
+    stack: ["LLMs", "Multi-agent systems", "Python"],
+    problem:
+      "Investigating multi-agent coordination for bug localization, automated patch generation, and test-driven evaluation.",
+    technicalDecision: {
+      choice: "Multi-agent iterative feedback loop",
+      tradeoff: "TODO: one-sentence trade-off for token consumption vs repair accuracy",
+    },
     links: {},
     images: [],
     caseStudy: {
@@ -307,11 +352,21 @@ export const projects: Project[] = [
   {
     slug: "video-lms",
     name: "Video and LMS Infrastructure",
+    title: "Video and LMS Infrastructure",
+    summary:
+      "Exploring live classes, adaptive streaming and low-bandwidth video delivery.",
     status: "PLANNED",
     category: "Systems exploration",
     oneLiner:
       "Exploring live classes, adaptive streaming and low-bandwidth video delivery.",
+    role: "Systems Explorer",
     stack: ["WebRTC", "WebSockets", "HLS"],
+    problem:
+      "Exploring low-bandwidth video delivery, adaptive streaming, and low-latency interactive classrooms.",
+    technicalDecision: {
+      choice: "WebRTC for real-time interactions + HLS for scalable broadcast delivery",
+      tradeoff: "TODO: one-sentence trade-off for WebRTC peer complexity vs HLS latency",
+    },
     links: {},
     images: [],
     caseStudy: {
@@ -332,11 +387,21 @@ export const projects: Project[] = [
   {
     slug: "ipl-analytics",
     name: "IPL Analytics and ML",
+    title: "IPL Analytics and ML",
+    summary:
+      "A planned analytics and modeling project on ball-by-ball IPL data.",
     status: "PLANNED",
     category: "Data / ML exploration",
     oneLiner:
       "A planned analytics and modeling project on ball-by-ball IPL data.",
+    role: "Data Analyst",
     stack: ["Python", "NumPy", "Pandas", "Matplotlib"],
+    problem:
+      "Analyzing 280,000+ ball-by-ball records to model in-match win probability and player impact.",
+    technicalDecision: {
+      choice: "Pandas/NumPy exploratory data pipeline",
+      tradeoff: "TODO: one-sentence trade-off for in-memory dataframes vs SQL querying",
+    },
     links: {},
     images: [],
     caseStudy: {

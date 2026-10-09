@@ -1,32 +1,40 @@
-import { AboutEngineering } from "@/components/sections/AboutEngineering";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { profile } from "@/data/profile";
+
+import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
-import { CurrentlyExploring } from "@/components/sections/CurrentlyExploring";
 import { Education } from "@/components/sections/Education";
 import { Footer } from "@/components/sections/Footer";
 import { Nav } from "@/components/sections/Nav";
-import { OtherProjects } from "@/components/sections/OtherProjects";
-import { SelectedWork } from "@/components/sections/SelectedWork";
+import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
-import { StackStrip } from "@/components/sections/StackStrip";
 import { Hero } from "@/components/sections/Hero";
-import { ExperienceRecognition } from "@/components/sections/ExperienceRecognition";
-import DozoFeature from "@/components/sections/DozoFeature";
+
+function checkResume() {
+  try {
+    const resumePath = profile.links.resume?.replace(/^\//, "");
+    if (!resumePath) return false;
+    return existsSync(path.join(process.cwd(), "public", resumePath));
+  } catch {
+    return false;
+  }
+}
 
 export default function Home() {
+  const resumeAvailable = checkResume();
+
   return (
     <>
       <Nav />
-      <main>
+      <main id="main-content">
+        {/* Page order: Hero → DOZO Case Study → Projects grid → Principles → Stack → Education → Contact */}
         <Hero />
-        <StackStrip />
-        <SelectedWork />
-        <DozoFeature />
-        <OtherProjects />
-        <AboutEngineering />
+        <Projects />
+        <About />
         <Skills />
-        <CurrentlyExploring />
         <Education />
-        <Contact />
+        <Contact resumeAvailable={resumeAvailable} />
       </main>
       <Footer />
     </>

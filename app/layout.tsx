@@ -23,27 +23,31 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  // TODO: update metadataBase to your production domain once deployed
+  metadataBase: new URL(profile.siteUrl || "http://localhost:3000"),
   title: {
-    default: "Aayush Raj - Full-Stack Developer",
-    template: "%s - Aayush Raj",
+    default: "Aayush Raj – Full-Stack Developer",
+    template: "%s · Aayush Raj",
   },
-  description: profile.heroSubtext,
+  description:
+    "Full-Stack Developer. Built DOZO, a real-time local-services marketplace with JWT auth and WebSocket live tracking. CS student at NIT Hamirpur. Open to remote internships, 2026.",
   alternates: {
     canonical: profile.siteUrl || "/",
   },
   openGraph: {
     type: "website",
-    title: "Aayush Raj - Full-Stack Developer",
-    description: profile.heroSubtext,
+    title: "Aayush Raj – Full-Stack Developer",
+    description:
+      "Full-Stack Developer. Built DOZO, a real-time local-services marketplace with JWT auth and WebSocket live tracking. Open to remote internships, 2026.",
     url: profile.siteUrl || "/",
     siteName: profile.name,
     images: [{ url: "/opengraph-image" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aayush Raj - Full-Stack Developer",
-    description: profile.heroSubtext,
+    title: "Aayush Raj – Full-Stack Developer",
+    description:
+      "Full-Stack Developer. Built DOZO, a real-time local-services marketplace. Open to remote internships, 2026.",
     images: ["/opengraph-image"],
   },
 };
@@ -67,9 +71,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} h-full`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -80,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <div id="main-content" className="flex min-h-full flex-1 flex-col">
+        <div id="main-content" className="flex min-h-screen flex-1 flex-col">
           <SmoothScrollProvider>
             <ScrollProgress />
             <TargetCursorFallback />

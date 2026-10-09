@@ -29,11 +29,16 @@ export function useReducedMotionSafe() {
 
 export function useMotionOK() {
   const reducedMotion = useReducedMotionSafe();
+  const hydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const coarsePointer = useSyncExternalStore(
     emptySubscribe,
     getCoarsePointer,
     getServerCoarsePointer,
   );
 
-  return reducedMotion === false && !coarsePointer;
+  return hydrated && reducedMotion === false && !coarsePointer;
 }

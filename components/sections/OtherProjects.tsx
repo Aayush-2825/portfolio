@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image";
 import type { Project } from "@/data/types";
 import { useState } from "react";
 import {
@@ -131,7 +132,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [expanded, setExpanded] = useState(false);
 
   const href = projectHref(project);
-  const image = project.image;
+  const image = project.images[0]?.src;
 
   return (
     <article
@@ -161,9 +162,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <div className="project-visual relative aspect-[16/9] overflow-hidden border-b border-border bg-surface">
         {image ? (
           <>
-            <img
+            <Image
               src={image}
               alt={`${project.name} project preview`}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="h-full w-full object-cover opacity-70 grayscale transition-all duration-700 ease-out group-hover:scale-[1.045] group-hover:opacity-100 group-hover:grayscale-0"
             />
 

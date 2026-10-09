@@ -1,6 +1,6 @@
 # V2 Rehaul Plan
 
-Status: V2 foundation implemented with documented fallbacks. No Part 3 registry components were installed because the referenced prompt pack is absent.
+Status: V2 foundation and final section pass implemented with documented fallbacks. No Part 3 registry components were installed because the referenced prompt pack is absent.
 
 ## Positioning Patch Applied
 
@@ -28,7 +28,7 @@ Status: V2 foundation implemented with documented fallbacks. No Part 3 registry 
 | Contact | Oversized text CTA | Replace with V2 footer/contact treatment. |
 | Footer | Utility footer | Retheme for the dark blueprint system. |
 
-The V2 foundation now includes the Lenis provider, progress bar, motion gate, intro reveal, floating-nav fallback, dynamic dot-grid fallback, data-backed stack strip, and fine-pointer cursor fallback. Existing section content remains in place until the exact Part 3 component source is supplied.
+The V2 implementation now includes the Lenis provider, progress bar, motion gate, intro reveal, floating-nav fallback, dynamic dot-grid fallback, data-backed stack strip, fine-pointer cursor fallback, a responsive Layer Map, and consistent indexed lower-page sections. The exact Part 3 component source is still unavailable, so the documented fallbacks remain in use.
 
 ## Existing Custom Components To Retire
 
@@ -89,7 +89,7 @@ Applied in this phase:
 1. Supply or attach `copilot-portfolio-v2-rehaul.md` Part 3.
 2. Verify exact component pages, commands, licenses, and dependency graphs.
 3. Log the selected library components in `docs/COMPONENTS.md`.
-4. Replace the current custom section visuals with library-first V2 components.
-5. Bind the Layer Map to `lib/layers.ts` and real project stacks.
+4. Replace the remaining custom section visuals with library-first V2 components if the Part 3 prompt pack is supplied.
+5. Bind the Layer Map to `lib/layers.ts` and real project stacks. **Completed in the current fallback pass.**
 6. Add the V2 motion system only where the phase prompt requires it.
-7. Run build, lint, TypeScript, responsive, accessibility, and bundle audits.
+7. Run build, lint, TypeScript, responsive, accessibility, and bundle audits. **Completed for the current scope.**

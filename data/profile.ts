@@ -22,7 +22,7 @@ export const profile = {
     github: "https://github.com/Aayush-2825",
     linkedin: "https://www.linkedin.com/in/aayush-raj-138430322",
     resume: "/resume/Aayush-Raj-Resume.pdf", // TODO(aayush): add file
-    email: "", // TODO(aayush): add email, contact section hides email button if empty
+    email: "aayush.ardy@gmail.com",
   },
   siteUrl: "", // TODO(aayush): production domain for canonical/OG/sitemap
 };

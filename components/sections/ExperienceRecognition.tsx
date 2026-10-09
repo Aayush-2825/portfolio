@@ -24,21 +24,30 @@ export function ExperienceRecognition() {
   ].filter((entry): entry is { label: string; detail: string } => Boolean(entry));
 
   return (
-    <section id="experience" aria-labelledby="experience-title" className="border-t">
-      <div className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 sm:py-28 lg:px-10">
-        <header className="mb-10 max-w-2xl">
-          <p className="mb-3 font-mono text-xs uppercase text-muted-foreground">Experience and Recognition</p>
-          <h2 id="experience-title" className="font-heading text-4xl text-foreground sm:text-5xl">
-            Experience and Recognition
-          </h2>
+    <section id="experience" aria-labelledby="experience-title" className="border-t border-border">
+      <div className="mx-auto w-full max-w-[1400px] px-5 py-20 sm:px-8 sm:py-28 lg:px-10">
+        <header className="mb-12 flex flex-col gap-6 border-b border-border pb-7 sm:mb-16 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mb-4 flex items-center gap-3 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="text-accent">10</span>
+              <span className="h-px w-8 bg-border" />
+              Experience and recognition
+            </p>
+            <h2 id="experience-title" className="max-w-3xl font-heading text-[clamp(3rem,7vw,6.5rem)] leading-[0.9] tracking-[-0.045em] text-foreground">
+              Evidence <span className="text-muted-foreground">over claims.</span>
+            </h2>
+          </div>
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-accent">
+            {String(entries.length).padStart(2, "0")} records
+          </span>
         </header>
         <TracingBeamFallback>
-          <ol className="grid gap-8">
+          <ol className="grid border-y border-border">
             {entries.map((entry, index) => (
-              <li key={`${entry.label}-${index}`} className="grid gap-2 sm:grid-cols-[3rem_1fr_auto] sm:items-baseline sm:gap-5">
-                <span className="font-mono text-xs text-muted">{String(index + 1).padStart(2, "0")}</span>
-                <h3 className="font-medium text-foreground">{entry.label}</h3>
-                <p className="font-mono text-xs uppercase text-muted">{entry.detail}</p>
+              <li key={`${entry.label}-${index}`} className="grid gap-3 border-b border-border py-6 last:border-b-0 sm:grid-cols-[3rem_1fr_auto] sm:items-baseline sm:gap-6 sm:py-7">
+                <span className="font-mono text-xs text-accent">{String(index + 1).padStart(2, "0")}</span>
+                <h3 className="text-base font-medium text-foreground sm:text-lg">{entry.label}</h3>
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground">{entry.detail}</p>
               </li>
             ))}
           </ol>
