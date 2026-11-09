@@ -1,9 +1,8 @@
 "use client";
 
-import { GraduationCap, Award, Calendar, Trophy, BookOpen, Star, ShieldCheck } from "lucide-react";
+import { GraduationCap, Calendar } from "lucide-react";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import { profile } from "@/data/profile";
-import { sound } from "@/lib/sound";
 
 export function Education() {
   const achievements = [

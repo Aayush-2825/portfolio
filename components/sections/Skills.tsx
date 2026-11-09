@@ -1,8 +1,7 @@
 "use client";
 
 import { BackgroundGrid, SectionHeader, StaggerReveal } from "@/components/ui/shared";
-import { skillGroups, aiML } from "@/data/skills";
-import { cn } from "@/lib/utils";
+import { aiML } from "@/data/skills";
 
 /* ── Compact grouped display ── */
 const compactGroups = [

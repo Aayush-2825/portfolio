@@ -7,7 +7,6 @@ import { ChevronDown, CheckCircle2 } from "lucide-react";
 import { profile } from "@/data/profile";
 import { BackgroundGrid, SectionHeader, StaggerReveal, SpotlightCard } from "@/components/ui/shared";
 import { cn } from "@/lib/utils";
-import { useMotionOK } from "@/lib/motion";
 import { BlurFade } from "@/components/ui/blur-fade";
 
 /* Principles with evidence links to real projects */
@@ -40,7 +39,6 @@ const principles = [
 ];
 
 export function About() {
-  const motionOK = useMotionOK();
   const [expandedPrinciple, setExpandedPrinciple] = useState<number | null>(0);
 
   return (

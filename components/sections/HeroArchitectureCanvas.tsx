@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { sound } from "@/lib/sound";
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
-import { Play, RotateCw, Activity, CheckCircle2, ShieldCheck, Database, Radio, Server, Laptop, Terminal } from "lucide-react";
+import { Play, RotateCw, Activity, ShieldCheck, Database, Radio, Server, Laptop, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface TopologyNode {

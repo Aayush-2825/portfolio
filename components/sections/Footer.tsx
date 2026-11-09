@@ -2,7 +2,7 @@
 
 import { profile } from "@/data/profile";
 import { sound } from "@/lib/sound";
-import { ArrowUp, Terminal, Shield, Sparkles } from "lucide-react";
+import { ArrowUp, Terminal } from "lucide-react";
 
 export function Footer({
   openTerminal,

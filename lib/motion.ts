@@ -4,6 +4,8 @@ import { useReducedMotion } from "motion/react";
 import { useSyncExternalStore } from "react";
 
 export const ease = [0.22, 1, 0.36, 1] as const;
+export const easeKowalski = [0.23, 1, 0.32, 1] as const;
+export const springKowalski = { type: "spring", stiffness: 400, damping: 30 } as const;
 
 export const durations = {
   fast: 0.3,

@@ -9,15 +9,11 @@ import {
   Check,
   Send,
   ArrowUpRight,
-  Sparkles,
-  MapPin,
-  Clock,
   FileDown,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import { Magnetic } from "@/components/interactive/Magnetic";
-import { cn } from "@/lib/utils";
 
 export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean }) {
   const [copied, setCopied] = useState(false);
@@ -119,6 +115,21 @@ export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean
                   <span>Open Email Client</span>
                   <ArrowUpRight size={12} className="opacity-70" />
                 </a>
+
+                {resumeAvailable && (
+                  <a
+                    href="/resume.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    data-cursor="RESUME"
+                    onClick={() => sound.playClick(1100)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/80 px-5 py-2.5 font-mono text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <FileDown size={14} />
+                    <span>View Resume</span>
+                    <ArrowUpRight size={12} className="opacity-70" />
+                  </a>
+                )}
               </div>
 
               {/* Social Channels */}

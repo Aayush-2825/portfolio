@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { durations, ease, stagger, useMotionOK } from "@/lib/motion";
+import { useMotionOK } from "@/lib/motion";
 
 export function KineticName({ name }: { name: string }) {
   const motionOK = useMotionOK();
