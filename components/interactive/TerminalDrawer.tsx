@@ -92,6 +92,7 @@ export function TerminalDrawer({
                 "  viewproof    - Inspect ViewProof (real-time photo proofing & watermark engine)",
                 "  pjmb         - Inspect pjmb Auth Backend (rotating token families & 2FA)",
                 "  swabhimaan   - Inspect Swabhimaan-2 (embedded Payload CMS & Cloudflare R2)",
+                "  blog         - Inspect Engineering Blog (Prisma 6.6 & PostgreSQL relations)",
                 "  stack        - Breakdown of full-stack engineering layers",
                 "  simulate     - Jump to live real-time booking dispatch simulator",
                 "  contact      - Display contact links and direct mail address",
@@ -222,6 +223,26 @@ export function TerminalDrawer({
                 "  • Sub-35ms TTFB via Next.js ISR on-demand webhook cache purging",
                 "Live Platform: https://swabhimaan-2.vercel.app",
                 "GitHub:        https://github.com/Aayush-2825/Swabhimaan-2",
+              ].join("\n"),
+            },
+          ]);
+          break;
+
+        case "blog":
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: `out-${lineId}`,
+              type: "success",
+              text: [
+                "ENGINEERING BLOG · RELATIONAL SYSTEMS ARCHITECTURE",
+                "Stack: Next.js 15.3, React 19, Prisma ORM 6.6, PostgreSQL, Kinde Auth OAuth, Tailwind v4",
+                "Key Invariants:",
+                "  • Relational schema: User -> Post (1:N), Post <-> Tag (M:N), Post -> Telemetry (1:1)",
+                "  • PostgreSQL UUID primary keys with single-roundtrip Prisma client relations",
+                "  • Kinde Auth OAuth session protection on authoring and publishing endpoints",
+                "  • Static site generation delivering sub-20ms TTFB across articles",
+                "GitHub: https://github.com/Aayush-2825/blog",
               ].join("\n"),
             },
           ]);

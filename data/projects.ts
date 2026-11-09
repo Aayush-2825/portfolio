@@ -347,19 +347,19 @@ export const projects: Project[] = [
   {
     slug: "engineering-blog",
     name: "Engineering Blog",
-    title: "Engineering Blog",
+    title: "Engineering Blog · Relational Systems Architecture",
     summary:
-      "A developer publication covering systems programming, distributed patterns, and web architecture.",
+      "A developer publication covering systems programming, distributed patterns, and web architecture built with Next.js 15.3, Prisma 6.6, and PostgreSQL.",
     status: "LIVE",
-    category: "Publishing / Technical Notes",
+    category: "Publishing / Relational Architecture",
     oneLiner:
-      "A developer publication covering systems programming, distributed patterns, and web architecture.",
-    role: "Author & Builder",
-    stack: ["Next.js", "TypeScript", "Prisma", "Tailwind CSS"],
+      "A developer publication covering systems programming, distributed patterns, and web architecture built with Next.js 15.3, Prisma 6.6, and PostgreSQL.",
+    role: "Author & Full-Stack Builder",
+    stack: ["Next.js 15.3", "React 19", "TypeScript", "Prisma 6.6", "PostgreSQL", "Kinde Auth", "Tailwind CSS v4"],
     problem:
-      "Creating a distraction-free, high-performance platform to document computer science coursework, system design experiments, and full-stack learnings.",
+      "Creating a high-performance publishing platform with relational tag taxonomies, view telemetry, and OAuth-protected authoring workflows without dynamic SSR overhead.",
     technicalDecision: {
-      choice: "Next.js with Prisma ORM and Markdown content pipeline",
+      choice: "Prisma ORM 6.6 on PostgreSQL paired with Next.js static page generation and Kinde Auth OAuth",
       tradeoff: "Statically generated pages eliminate cold-start database latency, requiring build-time regeneration for new publications.",
     },
     links: { repo: "https://github.com/Aayush-2825/blog" },
@@ -368,21 +368,25 @@ export const projects: Project[] = [
       product:
         "A fast, minimalist technical blog supporting code syntax highlighting, reading time calculation, and tag filtering.",
       features: [
+        { label: "Prisma 6.6 schema relations", built: true },
+        { label: "PostgreSQL UUID primary keys", built: true },
+        { label: "Kinde Auth OAuth protection", built: true },
         { label: "Markdown / MDX rendering", built: true },
-        { label: "Syntax highlighting",      built: true },
-        { label: "Category taxonomy",        built: true },
-        { label: "Reading time estimation",  built: true },
+        { label: "Syntax highlighting", built: true },
+        { label: "Category & tag taxonomy", built: true },
+        { label: "Reading time estimation", built: true },
       ],
       architecture: {
-        label: "Publishing pipeline",
+        label: "Publishing & data pipeline",
         built: true,
         nodes: [
-          { id: "author", label: "Author (MDX / Markdown)" },
-          { id: "prisma", label: "Prisma ORM" },
+          { id: "author", label: "Author (Kinde OAuth)" },
+          { id: "prisma", label: "Prisma ORM 6.6" },
+          { id: "pg",     label: "PostgreSQL Database" },
           { id: "next",   label: "Next.js Static Generation" },
         ],
-        edges: [["author", "prisma"], ["prisma", "next"]],
-        note: "Articles pre-render to static HTML for near-zero latency delivery.",
+        edges: [["author", "prisma"], ["prisma", "pg"], ["pg", "next"]],
+        note: "Relational queries compile via Prisma Client into optimized single-roundtrip PostgreSQL SQL.",
       },
       decisions: [
         { title: "Static Generation", body: "Pre-renders all blog posts during build time for maximum delivery speed and zero database load." },

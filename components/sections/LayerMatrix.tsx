@@ -6,13 +6,7 @@ import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import {
   Layers,
-  Laptop,
-  Server,
-  Database,
-  ShieldCheck,
-  Cpu,
   ArrowRight,
-  ExternalLink,
   Code2,
   CheckCircle2,
 } from "lucide-react";
@@ -52,7 +46,7 @@ export default async function Page() {
     </Suspense>
   );
 }`,
-    activeProjects: ["DOZO", "ViewProof", "Swabhimaan", "Portfolio"],
+    activeProjects: ["DOZO", "ViewProof", "Swabhimaan", "Engineering Blog", "Portfolio"],
   },
   {
     id: "gateway",
@@ -76,7 +70,7 @@ export const validateDispatch = (schema: ZodSchema) =>
     req.validData = result.data;
     next();
   };`,
-    activeProjects: ["DOZO", "Authentication Backend"],
+    activeProjects: ["DOZO", "pjmb"],
   },
   {
     id: "persistence",
@@ -99,7 +93,7 @@ await db.transaction(async (tx) => {
   if (slot.status !== "AVAILABLE") throw new Error("Slot taken");
   await tx.update(bookings).set({ status: "RESERVED" });
 });`,
-    activeProjects: ["DOZO", "ViewProof", "Swabhimaan"],
+    activeProjects: ["DOZO", "ViewProof", "Swabhimaan", "Engineering Blog"],
   },
   {
     id: "security",
@@ -119,7 +113,7 @@ if (tokenRecord.isRevoked) {
   await revokeAllTokensForUser(user.id);
   return res.status(403).json({ error: "Security alert: token reuse detected" });
 }`,
-    activeProjects: ["DOZO", "Authentication Backend"],
+    activeProjects: ["DOZO", "pjmb", "Engineering Blog"],
   },
   {
     id: "devops",

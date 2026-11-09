@@ -20,6 +20,7 @@ import { ProjectSchematic } from "@/components/interactive/ProjectSchematics";
 import { ViewProofSimulator } from "@/components/interactive/ViewProofSimulator";
 import { PjmbSecuritySimulator } from "@/components/interactive/PjmbSecuritySimulator";
 import { SwabhimaanCmsVisualizer } from "@/components/interactive/SwabhimaanCmsVisualizer";
+import { BlogRelationalVisualizer } from "@/components/interactive/BlogRelationalVisualizer";
 import { cn } from "@/lib/utils";
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
@@ -282,6 +283,12 @@ export function ProjectsGrid() {
               {selectedProject.slug === "swabhimaan" && (
                 <div>
                   <SwabhimaanCmsVisualizer />
+                </div>
+              )}
+
+              {selectedProject.slug === "engineering-blog" && (
+                <div>
+                  <BlogRelationalVisualizer />
                 </div>
               )}
 
