@@ -1,7 +1,7 @@
 {
-  "project": "Aayush Raj Portfolio - Awwwards-Tier Engineering Rehaul",
+  "project": "Aayush Raj Portfolio - Awwwards-Tier Engineering Showcase Redesign",
   "branchName": "main",
-  "description": "Redesign and elevate the portfolio into an award-winning showcase with 100% genuine backed data, real GitHub links, fluid physics-based cursor, tactile micro-interactions, and architectural precision.",
+  "description": "Redesign the developer portfolio into an award-winning engineering capability showcase featuring an 8-act visual narrative, interactive simulators for 5 genuine systems (DOZO, ViewProof, pjmb, Swabhimaan-2, Engineering Blog), developer CLI shell, and Emil Kowalski kinetic polish.",
   "userStories": [
     {
       "id": "US-001",
@@ -114,6 +114,118 @@
       "priority": 8,
       "passes": true,
       "notes": "Production build passed in 4.2s. ESLint passed with 0 errors. All static pages emitted."
+    },
+    {
+      "id": "US-009",
+      "title": "Kinetic Hero & Real-Time IST Telemetry Bar",
+      "description": "As an engineering evaluator, I want an authoritative Hero section featuring monumental kinetic typography, live IST telemetry, and verified academic credentials so that Aayush's technical identity and availability are immediately apparent.",
+      "acceptanceCriteria": [
+        "Hero kinetic display uses Bricolage Grotesque with fluid clamp typography text-[clamp(2.4rem,7.2vw,7.6rem)] and tight tracking",
+        "Live IST timestamp updates dynamically in Asia/Kolkata timezone with a pulsing green semaphore",
+        "NIT Hamirpur CS Dual Degree (CGPA 8.49) and Reliance Foundation Scholar status are rendered with verified credential tags",
+        "Tactile primary CTA buttons incorporate active scale press feedback (scale(0.97)) and zero horizontal scroll on mobile (360px)",
+        "Typecheck and build pass"
+      ],
+      "priority": 9,
+      "passes": false
+    },
+    {
+      "id": "US-010",
+      "title": "Flagship DOZO Real-Time Dispatch Simulator Deep-Dive",
+      "description": "As a technical interviewer, I want to interact with a real-time dispatch simulator demonstrating DOZO's Fastify 5, Drizzle ORM, Redis, and WebSocket architecture so that I can evaluate full-stack concurrency and state machine design.",
+      "acceptanceCriteria": [
+        "DOZO showcase features an interactive dispatch state machine executing accept, start, end, confirm, and cancel transitions",
+        "Animated SVG telemetry bus visualizes packet flows from Fastify route handlers through Redis OTP validation to PostgreSQL row-level locks",
+        "Accurate technical copy displays NIT Hamirpur 3-month pre-incubation, Fastify 5, Drizzle ORM on PostgreSQL, and 7-layer verification",
+        "Direct links to production deployment (https://dozo.work) and public repository (https://github.com/Aayush-2825/dozo)",
+        "Typecheck and build pass"
+      ],
+      "priority": 10,
+      "passes": false
+    },
+    {
+      "id": "US-011",
+      "title": "ViewProof Real-Time Proofing & Dynamic Watermark Simulator",
+      "description": "As a photography platform reviewer, I want to interact with a client proofing simulator demonstrating Firestore real-time snapshot synchronization and Cloudinary dynamic on-the-fly watermarking so that I can inspect modern React 19 media workflows.",
+      "acceptanceCriteria": [
+        "Interactive proofing simulator demonstrates real-time photo approval counter (e.g. 8/10 approved) mimicking Firestore onSnapshot listeners",
+        "Visualizes Cloudinary on-the-fly watermarking transformation pipeline (l_watermark_logo,g_center,opacity_40) protecting high-res previews",
+        "Accurate technical stack includes React 19, React Router 7, Vite 7, Tailwind v4, and Firebase 12 Firestore",
+        "Direct links to public GitHub repository (https://github.com/Aayush-2825/ViewProof) and published DEV.to technical case study",
+        "Typecheck and build pass"
+      ],
+      "priority": 11,
+      "passes": false
+    },
+    {
+      "id": "US-012",
+      "title": "pjmb Auth Backend Token Family & TOTP 2FA Security Simulator",
+      "description": "As a backend security evaluator, I want an interactive security simulator showing rotating refresh token family reuse detection and Speakeasy TOTP 2FA so that I can inspect the microservice's threat mitigation invariants.",
+      "acceptanceCriteria": [
+        "Interactive token family replay detection visualizes session revocation when an invalidated refresh token is reused",
+        "TOTP 2FA simulator demonstrates time-synced HMAC-SHA1 secret generation and single-use emergency recovery codes",
+        "Technical copy specifies Express 5, MongoDB Mongoose, 10-minute lockout after 5 failed attempts, tiered token-bucket rate limits, and Winston log rotation",
+        "Direct link to public GitHub repository (https://github.com/Aayush-2825/pjmb)",
+        "Typecheck and build pass"
+      ],
+      "priority": 12,
+      "passes": false
+    },
+    {
+      "id": "US-013",
+      "title": "Swabhimaan-2 Embedded Payload CMS & Cloudflare R2 Visualizer",
+      "description": "As a content systems architect, I want an interactive visualizer of Swabhimaan-2's 13 structured collections and zero-egress Cloudflare R2 media pipeline so that I can evaluate embedded headless CMS integration in Next.js 15.",
+      "acceptanceCriteria": [
+        "Interactive collection explorer displays the 13 structured Payload CMS 3.64 collections and form pipelines",
+        "Visualizes Cloudflare R2 zero-egress object storage architecture (region: auto) and Sharp server-side image processing",
+        "Accurate technical stack reflects Next.js 15.5.9 with Turbopack, React 19, MongoDB, and Lexical rich text editor",
+        "Direct links to live production deployment (https://swabhimaan-2.vercel.app) and public GitHub repo (https://github.com/Aayush-2825/Swabhimaan-2)",
+        "Typecheck and build pass"
+      ],
+      "priority": 13,
+      "passes": false
+    },
+    {
+      "id": "US-014",
+      "title": "Engineering Blog Relational Data Flow & Systems Matrix",
+      "description": "As a full-stack engineer, I want to explore the relational architecture of the engineering blog and its integration with the Full-Stack Systems Layer Matrix so that I can see how Prisma ORM 6.6, PostgreSQL, and Kinde Auth fit into Aayush's stack.",
+      "acceptanceCriteria": [
+        "Interactive data flow illustrates Prisma ORM 6.6 schema relations, PostgreSQL UUID keys, and Kinde Auth OAuth authoring protection",
+        "Full-Stack Systems Layer Matrix (Interface, Gateway, Persistence, Realtime, Security, Infra) highlights active blog code snippets and repo tags",
+        "Zero ungrounded placeholder metrics; verified stack reflects Next.js 15.3, React 19, Prisma 6.6, and Tailwind v4",
+        "Direct link to public GitHub repository (https://github.com/Aayush-2825/blog)",
+        "Typecheck and build pass"
+      ],
+      "priority": 14,
+      "passes": false
+    },
+    {
+      "id": "US-015",
+      "title": "High-Density Developer Terminal Shell & Interactive Principles Lab",
+      "description": "As a developer evaluating the portfolio, I want a functional terminal drawer triggered via backtick (`) and an interactive Principles Lab comparing naive vs production code so that I can explore capabilities via a developer-first interface.",
+      "acceptanceCriteria": [
+        "Terminal drawer toggles on backtick (`) with history stack, tab completion, and commands ('whoami', 'projects', 'github', 'dozo', 'viewproof', 'pjmb', 'swabhimaan', 'blog', 'stack', 'simulate', 'contact', 'clear')",
+        "Principles Lab compares naive tutorial patterns vs hardened production patterns (e.g. Polling vs WebSockets, Unguarded Tokens vs Token Families, Client-side Watermarking vs Cloudinary CDN)",
+        "Synthesized procedural audio micro-clicks trigger on terminal keypresses when audio is enabled",
+        "Accessible modal dossier opens on project inspection with full keyboard trap and Escape dismiss",
+        "Typecheck and build pass"
+      ],
+      "priority": 15,
+      "passes": false
+    },
+    {
+      "id": "US-016",
+      "title": "Motion Choreography, WCAG AAA Polish & Production Build Gate",
+      "description": "As a performance and accessibility auditor, I want silky Lenis inertial scrolling, Emil Kowalski cubic-bezier curves, zero ESLint warnings, and WCAG AAA contrast so that the portfolio delivers flawless production-grade quality.",
+      "acceptanceCriteria": [
+        "Lenis smooth inertial scrolling configured with autoRaf: true and syncTouch: false with strict useMotionOK() reduced-motion gating",
+        "UI transitions standard 150ms-250ms with cubic-bezier(0.23, 1, 0.32, 1) and button active press state scale(0.97)",
+        "Clean up all 43 ESLint unused import/variable warnings across components with 0 errors and 0 warnings",
+        "WCAG AAA contrast confirmed across dark elevation tokens (#0A0A0B, #111113, #18181B, #222226) and #FF4D1F accent",
+        "next build --webpack passes with zero errors and generates all 7 static routes cleanly"
+      ],
+      "priority": 16,
+      "passes": false
     }
   ]
 }
