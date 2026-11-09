@@ -91,6 +91,7 @@ export function TerminalDrawer({
                 "  dozo         - Deep-dive into DOZO (on-demand domestic services startup)",
                 "  viewproof    - Inspect ViewProof (real-time photo proofing & watermark engine)",
                 "  pjmb         - Inspect pjmb Auth Backend (rotating token families & 2FA)",
+                "  swabhimaan   - Inspect Swabhimaan-2 (embedded Payload CMS & Cloudflare R2)",
                 "  stack        - Breakdown of full-stack engineering layers",
                 "  simulate     - Jump to live real-time booking dispatch simulator",
                 "  contact      - Display contact links and direct mail address",
@@ -200,6 +201,27 @@ export function TerminalDrawer({
                 "  • 10-minute brute-force lockout after 5 consecutive failed attempts",
                 "  • Tiered token-bucket rate limits + Winston daily-rotate audit logging",
                 "GitHub: https://github.com/Aayush-2825/pjmb",
+              ].join("\n"),
+            },
+          ]);
+          break;
+
+        case "swabhimaan":
+        case "cms":
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: `out-${lineId}`,
+              type: "success",
+              text: [
+                "SWABHIMAAN-2 · EMBEDDED PAYLOAD CMS & ZERO-EGRESS MEDIA",
+                "Stack: Next.js 15.5.9 Turbopack, React 19, Payload CMS 3.64, Lexical Editor, MongoDB Atlas, Cloudflare R2",
+                "Key Invariants:",
+                "  • 13 structured collections (Periodicals, Posts, Media, Forms, Pages, Users, etc.)",
+                "  • Zero-egress Cloudflare R2 object storage with server-side Sharp responsive WebP generation",
+                "  • Sub-35ms TTFB via Next.js ISR on-demand webhook cache purging",
+                "Live Platform: https://swabhimaan-2.vercel.app",
+                "GitHub:        https://github.com/Aayush-2825/Swabhimaan-2",
               ].join("\n"),
             },
           ]);

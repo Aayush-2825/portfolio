@@ -19,6 +19,7 @@ import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { ProjectSchematic } from "@/components/interactive/ProjectSchematics";
 import { ViewProofSimulator } from "@/components/interactive/ViewProofSimulator";
 import { PjmbSecuritySimulator } from "@/components/interactive/PjmbSecuritySimulator";
+import { SwabhimaanCmsVisualizer } from "@/components/interactive/SwabhimaanCmsVisualizer";
 import { cn } from "@/lib/utils";
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
@@ -275,6 +276,12 @@ export function ProjectsGrid() {
               {(selectedProject.slug === "auth-backend" || selectedProject.slug === "pjmb") && (
                 <div>
                   <PjmbSecuritySimulator />
+                </div>
+              )}
+
+              {selectedProject.slug === "swabhimaan" && (
+                <div>
+                  <SwabhimaanCmsVisualizer />
                 </div>
               )}
 

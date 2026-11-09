@@ -266,30 +266,33 @@ export const projects: Project[] = [
   },
 
   // ------------------------------------------------------------------
-  // 4. Swabhimaan
+  // 4. Swabhimaan-2
   // ------------------------------------------------------------------
   {
     slug: "swabhimaan",
-    name: "Swabhimaan",
-    title: "Swabhimaan",
+    name: "Swabhimaan-2",
+    title: "Swabhimaan-2 · Embedded Payload CMS",
     summary:
-      "A CMS-managed content site for blogs and periodicals with media, forms and about ten pages.",
+      "A high-performance editorial publishing platform with 13 structured Payload CMS 3.64 collections, Lexical editor, and zero-egress Cloudflare R2 media storage.",
     status: "LIVE",
-    category: "Content Platform / CMS",
+    category: "Content Platform / Embedded CMS",
     oneLiner:
-      "A CMS-managed content site for blogs and periodicals with media, forms and about ten pages.",
+      "A high-performance editorial publishing platform with 13 structured Payload CMS 3.64 collections, Lexical editor, and zero-egress Cloudflare R2 media storage.",
     role: "Full-Stack Developer",
     stack: [
-      "Next.js", "React 19", "TypeScript", "Payload CMS",
-      "MongoDB", "Cloudflare R2", "Zod", "ISR",
+      "Next.js 15.5.9", "React 19", "TypeScript", "Payload CMS 3.64",
+      "Lexical Editor", "MongoDB", "Cloudflare R2", "Sharp", "Zod", "ISR",
     ],
     problem:
-      "Editorial publishing site requiring structured content management for periodicals, blogs, media assets, and forms with fast cached delivery.",
+      "Editorial publishing platform requiring structured content management across 13 collections, zero-egress media storage for high-res periodical covers, and sub-40ms cached delivery.",
     technicalDecision: {
-      choice: "Payload CMS with MongoDB and Next.js ISR on React 19",
+      choice: "Embedded Payload CMS 3.64 with Lexical, MongoDB Atlas, and Cloudflare R2 zero-egress media pipeline",
       tradeoff: "Incremental Static Regeneration provides edge-cached CDN performance with on-demand cache revalidation, trading off instant global propagation across edge nodes.",
     },
-    links: { repo: "https://github.com/Aayush-2825/Swabhimaan-2", live: undefined },
+    links: {
+      live: "https://swabhimaan-2.vercel.app",
+      repo: "https://github.com/Aayush-2825/Swabhimaan-2",
+    },
     images: [],
     caseStudy: {
       product:

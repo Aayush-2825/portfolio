@@ -11,14 +11,14 @@
 ## 1. Milestone Status Overview
 
 - **Milestone 1: Groundwork & Baseline Integrity**: **COMPLETED (8/8 Passed)**
-- **Milestone 2: Award-Winning Showcase Redesign**: **IN PROGRESS (4/8 Passed)**
+- **Milestone 2: Award-Winning Showcase Redesign**: **IN PROGRESS (5/8 Passed)**
   - Active Stories: `US-009` through `US-016`
-  - Completed: `US-009`, `US-010`, `US-011`, `US-012`
-  - Current Story: `US-013` (Swabhimaan-2 Embedded Payload CMS & Cloudflare R2 Visualizer)
+  - Completed: `US-009`, `US-010`, `US-011`, `US-012`, `US-013`
+  - Current Story: `US-014` (Engineering Blog Relational Data Flow & Systems Matrix)
 - **Current Blockers**: **NONE**
 - **Codebase Health**: **GREEN**
   - TypeScript Typecheck (`npx tsc --noEmit`): **0 errors**
-  - Next.js Production Build (`npm run build --webpack`): **7 static pages emitted in 6.8s**
+  - Next.js Production Build (`npm run build --webpack`): **7 static pages emitted in 7.4s**
   - ESLint Syntax Check (`npm run lint`): **0 errors**
 
 ---
