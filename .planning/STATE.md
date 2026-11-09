@@ -11,10 +11,10 @@
 ## 1. Milestone Status Overview
 
 - **Milestone 1: Groundwork & Baseline Integrity**: **COMPLETED (8/8 Passed)**
-- **Milestone 2: Award-Winning Showcase Redesign**: **IN PROGRESS (6/8 Passed)**
+- **Milestone 2: Award-Winning Showcase Redesign**: **IN PROGRESS (7/8 Passed)**
   - Active Stories: `US-009` through `US-016`
-  - Completed: `US-009`, `US-010`, `US-011`, `US-012`, `US-013`, `US-014`
-  - Current Story: `US-015` (High-Density Developer Terminal Shell & Interactive Principles Lab)
+  - Completed: `US-009`, `US-010`, `US-011`, `US-012`, `US-013`, `US-014`, `US-015`
+  - Current Story: `US-016` (Motion Choreography, WCAG AAA Polish & Production Build Gate)
 - **Current Blockers**: **NONE**
 - **Codebase Health**: **GREEN**
   - TypeScript Typecheck (`npx tsc --noEmit`): **0 errors**

@@ -8,11 +8,9 @@ import {
   Cpu,
   CheckCircle2,
   AlertTriangle,
-  Code2,
   Sparkles,
   ArrowRight,
   ShieldAlert,
-  Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,68 +34,137 @@ const COMPARISONS: PrincipleComparison[] = [
     id: "auth",
     number: "01",
     title: "Build from Fundamentals",
-    description: "Understand the underlying protocols, crypto tokens, and memory boundaries before reaching for framework abstractions.",
-    vulnerabilityTag: "CWE-312: Stolen Token Exfiltration via XSS",
-    productionTag: "Hardened: HttpOnly + Cryptographic Family Revocation",
-    tutorialTitle: "Naïve Tutorial Pattern (Insecure)",
-    tutorialCode: `// Tutorial code: Storing token in localStorage
+    description: "Understand token rotation, session boundaries, and cryptographic reuse detection before trusting framework abstractions.",
+    vulnerabilityTag: "CWE-312: Stolen Token Exfiltration via XSS & Stale Sessions",
+    productionTag: "Hardened: HttpOnly + Cryptographic Family Revocation (pjmb)",
+    tutorialTitle: "Naïve Tutorial Pattern (localStorage JWT)",
+    tutorialCode: `// Tutorial: Storing raw JWT in localStorage & bearer header
 const token = response.data.token;
-localStorage.setItem("authToken", token); // Vulnerable to XSS
+localStorage.setItem("authToken", token); // Exposable via XSS
 
-// Attaching token on every fetch with no rotation
+// Attaching token on every fetch with zero reuse detection
 fetch("/api/data", {
   headers: { Authorization: \`Bearer \${token}\` }
 });`,
-    tutorialFlaw: "Vulnerable to malicious script exfiltration (XSS). No refresh rotation means a stolen token grants indefinite access.",
-    productionTitle: "Production Systems Pattern (Hardened)",
-    productionCode: `// Production code: HttpOnly Cookie + Reuse Detection
+    tutorialFlaw: "Vulnerable to malicious script exfiltration (XSS). No refresh token rotation means a compromised token grants indefinite silent access.",
+    productionTitle: "Production Systems Pattern (pjmb Security Engine)",
+    productionCode: `// Production: HttpOnly Cookies + Speakeasy 2FA + Replay Detection
 app.post("/api/auth/refresh", async (req, res) => {
   const { refreshToken } = req.cookies;
-  const tokenRecord = await db.query.tokens.findFirst({
-    where: eq(tokens.hash, hash(refreshToken))
-  });
+  const tokenRecord = await TokenFamily.findOne({ hash: sha256(refreshToken) });
 
-  // Reuse detection: if already used, invalidate entire family!
+  // Automatic breach mitigation: if already used, revoke entire family!
   if (tokenRecord?.isRevoked) {
-    await revokeAllUserTokens(tokenRecord.userId);
-    return res.status(403).json({ error: "Breach alert: token replayed" });
+    await TokenFamily.updateMany({ familyId: tokenRecord.familyId }, { isRevoked: true });
+    winston.warn(\`[SECURITY BREACH] Token replayed for user \${tokenRecord.userId}\`);
+    return res.status(403).json({ error: "Breach detected: session terminated" });
   }
 
-  // Rotate immediately with atomic update
-  const newFamily = await rotateTokenFamily(tokenRecord);
-  setSecureHttpOnlyCookie(res, newFamily.refreshToken);
-  res.json({ accessToken: newFamily.accessToken });
+  // Rotate immediately with atomic state persistence
+  const newTokens = await rotateTokenFamily(tokenRecord);
+  setSecureHttpOnlyCookie(res, newTokens.refreshToken);
+  res.json({ accessToken: newTokens.accessToken });
 });`,
-    productionAdvantage: "Zero XSS exposure via HttpOnly cookies. Cryptographic reuse detection shuts down hijacked sessions automatically.",
+    productionAdvantage: "Zero XSS exposure via HttpOnly SameSite cookies. Cryptographic replay detection terminates compromised session trees instantly.",
+  },
+  {
+    id: "realtime",
+    number: "02",
+    title: "Event-Driven Telemetry",
+    description: "Replace battery-draining HTTP polling with bi-directional WebSockets and Redis pub/sub backplanes.",
+    vulnerabilityTag: "CWE-400: Network Congestion & DB Overload via HTTP Polling",
+    productionTag: "Hardened: WebSocket State Machine + Redis Pub/Sub (DOZO)",
+    tutorialTitle: "Naïve Tutorial Pattern (HTTP Polling Loop)",
+    tutorialCode: `// Tutorial: Blind setInterval polling every 2 seconds
+useEffect(() => {
+  const timer = setInterval(async () => {
+    // Floods the HTTP gateway with redundant roundtrips
+    const res = await fetch(\`/api/dispatch/status?id=\${orderId}\`);
+    const data = await res.json();
+    setStatus(data.status);
+  }, 2000);
+  return () => clearInterval(timer);
+}, [orderId]);`,
+    tutorialFlaw: "Floods the gateway with redundant TCP handshakes, causes database query stampedes, and burns client mobile battery.",
+    productionTitle: "Production Systems Pattern (DOZO Fastify WebSockets)",
+    productionCode: `// Production: Fastify WebSocket state machine + Redis broadcast
+fastify.get("/ws/dispatch/:jobId", { websocket: true }, (connection, req) => {
+  const { jobId } = req.params;
+  const subscriber = redis.duplicate();
+
+  subscriber.subscribe(\`job:\${jobId}:events\`, (err) => {
+    if (err) connection.socket.close(1011, "PubSub connection failed");
+  });
+
+  subscriber.on("message", (channel, message) => {
+    // Sub-10ms event delivery directly to connected worker/client
+    connection.socket.send(JSON.stringify({
+      event: "DISPATCH_UPDATE",
+      payload: JSON.parse(message)
+    }));
+  });
+
+  connection.socket.on("close", () => subscriber.quit());
+});`,
+    productionAdvantage: "Zero unnecessary HTTP handshakes. Pushes real-time dispatch state transitions over a persistent bi-directional channel in <10ms.",
+  },
+  {
+    id: "media",
+    number: "03",
+    title: "Zero-Trust Asset Pipelines",
+    description: "Perform dynamic server-side media transformations and access gating rather than client-side cosmetics.",
+    vulnerabilityTag: "CWE-200: High-Res Asset Theft via Bypassable Client Watermark",
+    productionTag: "Hardened: Serverless Dynamic Watermark Pipeline (ViewProof)",
+    tutorialTitle: "Naïve Tutorial Pattern (CSS/Canvas Overlay)",
+    tutorialCode: `// Tutorial: Client-side CSS watermark over full-res image
+<div className="relative">
+  <img src="https://cdn.example.com/raw_photo_50mb.jpg" alt="Proof" />
+  {/* Trivial to bypass via DevTools inspector or network tab! */}
+  <div className="absolute inset-0 pointer-events-none watermark-overlay">
+    <span>© Photographer Preview</span>
+  </div>
+</div>`,
+    tutorialFlaw: "Full-resolution original raw photograph is fetched directly by the browser; client can bypass the overlay in 3 seconds via DevTools.",
+    productionTitle: "Production Systems Pattern (Cloudinary Dynamic CDN)",
+    productionCode: `// Production: Server-side dynamic on-the-fly watermarking pipeline
+export function buildProofUrl(publicId: string, watermarkId: string): string {
+  // Transformation is baked into pixel data by edge CDN before delivery
+  return cloudinary.url(publicId, {
+    transformation: [
+      { width: 1600, crop: "limit", quality: "auto:eco" },
+      { overlay: watermarkId, opacity: 40, gravity: "center" },
+      { flags: "attachment:false", fetch_format: "auto" }
+    ],
+    secure: true
+  });
+}`,
+    productionAdvantage: "Watermark is permanently rendered into the compressed image buffer at the edge. High-resolution raw assets never reach unapproved clients.",
   },
   {
     id: "concurrency",
-    number: "02",
-    title: "Ship Useful Software",
-    description: "Solve real customer problems where race conditions, concurrent requests, and financial states actually occur.",
+    number: "04",
+    title: "Ship Resilient Concurrency",
+    description: "Enforce strict transactional isolation and pessimistic row locks to prevent double-booking and state corruption.",
     vulnerabilityTag: "CWE-362: Race Condition / Slot Overbooking",
-    productionTag: "Hardened: PostgreSQL SERIALIZABLE Row-Level Mutex",
-    tutorialTitle: "Naïve Tutorial Pattern (Race Conditions)",
-    tutorialCode: `// Tutorial code: Read then Write with no transaction
+    productionTag: "Hardened: PostgreSQL SERIALIZABLE Row-Level Mutex (DOZO)",
+    tutorialTitle: "Naïve Tutorial Pattern (Read-then-Write Race)",
+    tutorialCode: `// Tutorial: Read then Write without transaction lock
 const booking = await Booking.findById(id);
 if (booking.isAvailable) {
-  // RACE CONDITION: Another client can book right here!
+  // RACE CONDITION: Concurrent request slips in right here!
   booking.isAvailable = false;
   booking.userId = req.user.id;
   await booking.save();
 }`,
-    tutorialFlaw: "Under concurrent load, two simultaneous requests read isAvailable=true and both claim the same slot.",
-    productionTitle: "Production Systems Pattern (Atomic Locks)",
-    productionCode: `// Production code: PostgreSQL Serializable Transaction
+    tutorialFlaw: "Under concurrent load, two simultaneous requests read isAvailable=true and both claim the same slot, corrupting inventory.",
+    productionTitle: "Production Systems Pattern (Atomic Row Mutex)",
+    productionCode: `// Production: PostgreSQL Serializable Transaction with Drizzle ORM
 await db.transaction(async (tx) => {
-  // Explicit pessimistic lock on the target row
+  // Explicit pessimistic lock on the target row prevents race conditions
   const [slot] = await tx
     .select()
     .from(bookingSlots)
-    .where(and(
-      eq(bookingSlots.id, slotId),
-      eq(bookingSlots.status, "AVAILABLE")
-    ))
+    .where(and(eq(bookingSlots.id, slotId), eq(bookingSlots.status, "AVAILABLE")))
     .for("update"); // Row-level mutex lock
 
   if (!slot) {
@@ -109,39 +176,7 @@ await db.transaction(async (tx) => {
     .set({ status: "RESERVED", helperId, lockedAt: new Date() })
     .where(eq(bookingSlots.id, slot.id));
 });`,
-    productionAdvantage: "Pessimistic row locking guarantees strict serializability: zero double-booking even under thousands of concurrent requests.",
-  },
-  {
-    id: "change",
-    number: "03",
-    title: "Design for Change",
-    description: "Structure modular domain boundaries and typed contracts so new requirements do not break downstream services.",
-    vulnerabilityTag: "CWE-20: Unchecked Input & Monolithic Tight Coupling",
-    productionTag: "Hardened: Zod Contract -> Domain -> Async Event Bus",
-    tutorialTitle: "Naïve Tutorial Pattern (Tight Coupling)",
-    tutorialCode: `// Tutorial code: Controller directly queries DB & sends response
-app.post("/create-order", async (req, res) => {
-  // Unvalidated input directly into database
-  const order = await db.collection("orders").insertOne(req.body);
-  await sendNotification(req.body.userEmail); // Side effect in route
-  res.json(order);
-});`,
-    tutorialFlaw: "Route handler couples HTTP transport, database schema, and third-party notifications with zero validation.",
-    productionTitle: "Production Systems Pattern (Decoupled Domain)",
-    productionCode: `// Production code: Zod Contract -> Service Layer -> Event Bus
-export async function createOrderController(req: Request, res: Response) {
-  // 1. Strict Contract Validation
-  const command = CreateOrderSchema.parse(req.body);
-
-  // 2. Pure Domain Execution
-  const order = await OrderService.placeOrder(command);
-
-  // 3. Event-Driven Side Effects (decides asynchronously)
-  await eventBus.publish(new OrderPlacedEvent(order));
-
-  res.status(201).json({ id: order.id, status: order.status });
-}`,
-    productionAdvantage: "Clear separation of concerns: transport validation, domain logic, and asynchronous notifications scale independently.",
+    productionAdvantage: "Pessimistic row locking guarantees strict serializability: zero double-booking or inventory drift even under concurrent load.",
   },
 ];
 
@@ -185,7 +220,7 @@ export function PrinciplesLab() {
         </div>
 
         {/* Principle Selector Tabs */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {COMPARISONS.map((comp) => {
             const isSelected = activePrinciple.id === comp.id;
 

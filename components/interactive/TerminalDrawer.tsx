@@ -338,8 +338,39 @@ export function TerminalDrawer({
     setInput("");
   };
 
+  const VALID_COMMANDS = [
+    "help",
+    "whoami",
+    "projects",
+    "github",
+    "repos",
+    "dozo",
+    "viewproof",
+    "pjmb",
+    "auth",
+    "swabhimaan",
+    "cms",
+    "blog",
+    "stack",
+    "simulate",
+    "contact",
+    "sudo hire",
+    "clear",
+    "exit",
+  ];
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowUp") {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      sound.playClick(1400, 0.01);
+      const current = input.trim().toLowerCase();
+      if (current) {
+        const match = VALID_COMMANDS.find((cmd) => cmd.startsWith(current));
+        if (match) {
+          setInput(match);
+        }
+      }
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length > 0) {
         const nextIdx = historyIndex + 1;
@@ -456,7 +487,7 @@ export function TerminalDrawer({
         {/* Quick Command Suggestions (Touch-friendly for mobile/tablet) */}
         <div className="flex items-center gap-1.5 overflow-x-auto px-4 py-2 border-t border-border/50 bg-[#060608] text-[11px] select-none">
           <span className="text-muted-foreground/60 shrink-0 text-[10px] uppercase tracking-wider">Quick:</span>
-          {["whoami", "dozo", "projects", "stack", "simulate", "sudo hire", "clear"].map((cmd) => (
+          {["whoami", "projects", "github", "dozo", "viewproof", "pjmb", "swabhimaan", "blog", "stack", "simulate", "contact", "sudo hire", "clear"].map((cmd) => (
             <button
               key={cmd}
               type="button"
@@ -480,9 +511,12 @@ export function TerminalDrawer({
             ref={inputRef}
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              sound.playClick(1500, 0.005);
+              setInput(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
-            placeholder="type 'help' or command..."
+            placeholder="type 'help' or command (Tab to autocomplete)..."
             className="flex-1 bg-transparent font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
           />
           <button
