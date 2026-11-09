@@ -89,3 +89,24 @@
   - tsc --noEmit: 0 errors
   - npm run build: 0 errors, 7 static routes generated cleanly in 5.5s
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-09] - Story US-009 Complete: Kinetic Hero & Real-Time IST Telemetry Bar
+- Files Modified:
+  - components/sections/Hero.tsx
+  - prd.json
+  - .planning/STATE.md
+- Accomplishments:
+  - Integrated React 18/19 useSyncExternalStore for the live Asia/Kolkata IST clock to prevent state-in-effect and hydration mismatch warnings.
+  - Added live pulsing emerald semaphore (#10B981) directly within the IST telemetry capsule.
+  - Rendered verified credential tags for NIT Hamirpur CSE Dual Degree (CGPA 8.49) and Reliance Foundation Scholar in both the header bar and the hero badge strip.
+  - Integrated active:scale-[0.97] tactile compression physics to the primary 'Explore Selected Work' CTA and CLI terminal trigger buttons.
+  - Preserved fluid clamp typography (clamp(2.4rem, 7.2vw, 7.6rem)) with Bricolage Grotesque and zero horizontal overflow at 360px viewport.
+- Verification:
+  - npx tsc --noEmit: Exited with code 0 (0 type errors).
+  - npm run lint: Exited with code 0 (0 errors).
+  - npm run build (next build --webpack): Compiled in 6.6s, all 7 static routes pre-rendered successfully.
+- Advice for next iteration:
+  - Ready for Story US-010: Flagship DOZO Real-Time Dispatch Simulator Deep-Dive.
+--------------------------------------------------
