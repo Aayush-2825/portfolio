@@ -89,6 +89,7 @@ export function TerminalDrawer({
                 "  projects     - List shipped production platforms and research",
                 "  github       - Show verified public repositories under Aayush-2825",
                 "  dozo         - Deep-dive into DOZO (on-demand domestic services startup)",
+                "  viewproof    - Inspect ViewProof (real-time photo proofing & watermark engine)",
                 "  stack        - Breakdown of full-stack engineering layers",
                 "  simulate     - Jump to live real-time booking dispatch simulator",
                 "  contact      - Display contact links and direct mail address",
@@ -155,9 +156,28 @@ export function TerminalDrawer({
                 "DOZO · ON-DEMAND LOCAL SERVICES PLATFORM",
                 "Role: Technical Co-founder",
                 "Incubation: 3-month pre-incubation at NIT Hamirpur",
-                "Stack: Next.js, Express, PostgreSQL, Drizzle ORM, Redis, WebSockets, Docker, Turborepo",
+                "Stack: Fastify 5, Drizzle ORM, PostgreSQL, Redis, WebSockets, Docker, Turborepo",
                 "Realtime Architecture: WebSocket bi-directional state machine dispatching verified helpers for domestic services.",
                 "Live link: https://dozo.work",
+                "GitHub:    https://github.com/Aayush-2825/dozo",
+              ].join("\n"),
+            },
+          ]);
+          break;
+
+        case "viewproof":
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: `out-${lineId}`,
+              type: "success",
+              text: [
+                "VIEWPROOF · REAL-TIME CLIENT PROOFING & WATERMARKING",
+                "Stack: React 19, React Router 7, Vite 7, Firebase 12 Firestore, Cloudinary, Tailwind v4",
+                "Architecture: Firestore onSnapshot reactive document sync + Cloudinary on-the-fly watermarking pipeline (l_watermark_logo,g_center,opacity_40)",
+                "Live App:   https://view-proof.vercel.app",
+                "GitHub:     https://github.com/Aayush-2825/ViewProof",
+                "DEV.to:     https://dev.to/aayush2825/building-viewproof-real-time-photo-proofing-with-react-19-and-firestore",
               ].join("\n"),
             },
           ]);

@@ -10,16 +10,14 @@ import {
   ExternalLink,
   ArrowUpRight,
   ArrowRight,
-  Layers,
   Cpu,
-  CheckCircle2,
   X,
-  FileCode2,
-  Sparkles,
+  BookOpen,
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { ProjectSchematic } from "@/components/interactive/ProjectSchematics";
+import { ViewProofSimulator } from "@/components/interactive/ViewProofSimulator";
 import { cn } from "@/lib/utils";
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
@@ -266,6 +264,13 @@ export function ProjectsGrid() {
 
             {/* Modal Body */}
             <div className="mt-6 space-y-6">
+              {/* Interactive Simulator (if available for project) */}
+              {selectedProject.slug === "viewproof" && (
+                <div>
+                  <ViewProofSimulator />
+                </div>
+              )}
+
               {/* Problem */}
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
@@ -352,6 +357,19 @@ export function ProjectsGrid() {
                   >
                     <GithubIcon className="h-3.5 w-3.5" />
                     <span>View Repository</span>
+                  </a>
+                )}
+
+                {selectedProject.links?.writeup && (
+                  <a
+                    href={selectedProject.links.writeup}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => sound.playClick(1000)}
+                    className="inline-flex items-center gap-2 rounded-full border border-purple-500/40 bg-purple-500/15 px-5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/25"
+                  >
+                    <BookOpen size={13} />
+                    <span>DEV.to Case Study</span>
                   </a>
                 )}
               </div>

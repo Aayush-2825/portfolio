@@ -121,16 +121,17 @@ export const projects: Project[] = [
     oneLiner:
       "Photographers deliver albums, and clients review, comment on and approve individual photographs in real time.",
     role: "Solo Full-Stack Builder",
-    stack: ["React", "Next.js", "Firebase", "Firestore", "Cloudinary", "Tailwind CSS"],
+    stack: ["React 19", "React Router 7", "Vite 7", "Firebase 12 Firestore", "Cloudinary", "Tailwind CSS v4"],
     problem:
       "Photo delivery and client feedback usually happen across scattered chat apps. ViewProof unifies high-res album delivery, per-photo comments, and approval in one collaborative workflow.",
     technicalDecision: {
-      choice: "Firestore for real-time album/approval state + Cloudinary for media delivery",
+      choice: "Firestore onSnapshot for real-time album/approval state + Cloudinary on-the-fly watermark transformations",
       tradeoff: "Firestore document listeners enable zero-infrastructure real-time synchronization, trading off multi-region relational ACID constraints.",
     },
     links: {
       live: "https://view-proof.vercel.app",
-      repo: "https://github.com/Aayush-2825/viewproof",
+      repo: "https://github.com/Aayush-2825/ViewProof",
+      writeup: "https://dev.to/aayush2825/building-viewproof-real-time-photo-proofing-with-react-19-and-firestore",
     },
     images: [],
     caseStudy: {

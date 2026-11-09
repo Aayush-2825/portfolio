@@ -132,3 +132,27 @@
 - Advice for next iteration:
   - Ready for Story US-011: ViewProof Real-Time Proofing & Dynamic Watermark Simulator.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-09] - Story US-011 Complete: ViewProof Real-Time Proofing & Dynamic Watermark Simulator
+- Files Created/Modified:
+  - components/interactive/ViewProofSimulator.tsx (New component)
+  - components/sections/ProjectsGrid.tsx
+  - components/interactive/TerminalDrawer.tsx
+  - data/projects.ts
+  - prd.json
+  - .planning/STATE.md
+- Accomplishments:
+  - Built interactive ViewProofSimulator with real-time approval counter (8/10 approved percentage bar) simulating Firestore onSnapshot listener round-trip latency (~14ms).
+  - Implemented Cloudinary on-the-fly dynamic watermarking toggle (l_watermark_logo,g_center,opacity_40) with live transformation URL breakdown and visual protected watermark overlay.
+  - Synchronized technical stack across data and UI: React 19, React Router 7, Vite 7, Firebase 12 Firestore, Cloudinary, Tailwind v4.
+  - Mounted direct links to live deployment (https://view-proof.vercel.app), public GitHub repo (https://github.com/Aayush-2825/ViewProof), and DEV.to technical case study.
+  - Integrated ViewProof simulator inside the architectural inspection modal and added 'viewproof' CLI command in TerminalDrawer.
+- Verification:
+  - npx tsc --noEmit: Exited with code 0 (0 type errors).
+  - npm run lint: Exited with code 0 (0 errors).
+  - npm run build (next build --webpack): Compiled in 8.2s, all 7 static pages emitted in 2.1s.
+- Advice for next iteration:
+  - Ready for Story US-012: pjmb Auth Backend Token Family & TOTP 2FA Security Simulator.
+--------------------------------------------------
