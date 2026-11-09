@@ -156,3 +156,28 @@
 - Advice for next iteration:
   - Ready for Story US-012: pjmb Auth Backend Token Family & TOTP 2FA Security Simulator.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-09] - Story US-012 Complete: pjmb Auth Backend Token Family & TOTP 2FA Security Simulator
+- Files Created/Modified:
+  - components/interactive/PjmbSecuritySimulator.tsx (New component)
+  - components/sections/ProjectsGrid.tsx
+  - components/interactive/TerminalDrawer.tsx
+  - data/projects.ts
+  - prd.json
+  - .planning/STATE.md
+- Accomplishments:
+  - Built interactive PjmbSecuritySimulator with dual tabs: Token Family Replay Detection & Speakeasy TOTP 2FA.
+  - Implemented token family tree visualization (active vs consumed tokens) with simulated normal rotation (Gen 0 -> Gen 1 -> Gen 2) and attack trigger (replaying Gen 0 triggers full family revocation with threat mitigation logs).
+  - Built Speakeasy TOTP 2FA simulator with 30s countdown bar, rotating 6-digit code, brute-force tracking enforcing a 10-minute lockout after 5 consecutive failed attempts, and single-use emergency recovery codes.
+  - Synchronized technical stack across data and UI: Express 5, MongoDB Mongoose, TypeScript, Passport.js, Speakeasy TOTP, Zod, Helmet, Winston daily-rotate audit logs.
+  - Mounted PjmbSecuritySimulator into the project inspection modal and added 'pjmb' / 'auth' commands to TerminalDrawer.
+  - Provided direct link to public GitHub repository (https://github.com/Aayush-2825/pjmb).
+- Verification:
+  - npx tsc --noEmit: Exited with code 0 (0 type errors).
+  - npm run lint: Exited with code 0 (0 errors).
+  - npm run build (next build --webpack): Compiled in 6.8s, all 7 static pages emitted in 1.72s.
+- Advice for next iteration:
+  - Ready for Story US-013: Swabhimaan-2 Embedded Payload CMS & Cloudflare R2 Visualizer.
+--------------------------------------------------

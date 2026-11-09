@@ -18,6 +18,7 @@ import { GithubIcon } from "@/components/ui/icons";
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { ProjectSchematic } from "@/components/interactive/ProjectSchematics";
 import { ViewProofSimulator } from "@/components/interactive/ViewProofSimulator";
+import { PjmbSecuritySimulator } from "@/components/interactive/PjmbSecuritySimulator";
 import { cn } from "@/lib/utils";
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
@@ -268,6 +269,12 @@ export function ProjectsGrid() {
               {selectedProject.slug === "viewproof" && (
                 <div>
                   <ViewProofSimulator />
+                </div>
+              )}
+
+              {(selectedProject.slug === "auth-backend" || selectedProject.slug === "pjmb") && (
+                <div>
+                  <PjmbSecuritySimulator />
                 </div>
               )}
 

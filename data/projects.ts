@@ -187,49 +187,50 @@ export const projects: Project[] = [
   },
 
   // ------------------------------------------------------------------
-  // 3. Authentication backend
+  // 3. Authentication backend (pjmb)
   // ------------------------------------------------------------------
   {
     slug: "auth-backend",
-    name: "Authentication Backend",
-    title: "Authentication Backend",
+    name: "pjmb · Auth Engine",
+    title: "pjmb · Auth Engine",
     summary:
-      "A production-oriented authentication backend covering sessions, JWT, refresh-token rotation, OAuth and 2FA.",
+      "A production-oriented authentication backend covering sessions, JWT, rotating refresh token families, OAuth, and Speakeasy TOTP 2FA.",
     status: "EXPERIMENTAL",
     category: "Backend / Security Infrastructure",
     oneLiner:
-      "A production-oriented authentication backend covering sessions, JWT, refresh-token rotation, OAuth and 2FA.",
+      "A production-oriented authentication backend covering sessions, JWT, rotating refresh token families, OAuth, and Speakeasy TOTP 2FA.",
     role: "Backend Security Engineer",
-    stack: ["Node.js", "Express", "MongoDB", "Passport.js", "Zod", "Helmet", "JWT"],
+    stack: ["Express 5", "MongoDB Mongoose", "TypeScript", "Passport.js", "Speakeasy TOTP", "Zod", "Helmet", "Winston"],
     problem:
-      "Production authentication requires secure token lifecycle management, OAuth federation, rate limiting, and protection against token replay attacks.",
+      "Production authentication requires strict token family lifecycle management, 2FA recovery mechanisms, tiered rate limiting, and automated session revocation upon token replay detection.",
     technicalDecision: {
-      choice: "JWT access tokens paired with rotating refresh tokens and reuse detection",
-      tradeoff: "Rotating refresh token families guarantee replay security by revoking hijacked families, trading off atomic token table writes on each refresh.",
+      choice: "Rotating refresh token families with automatic reuse revocation + Speakeasy TOTP 2FA with single-use emergency backup codes",
+      tradeoff: "Token family revocation eliminates hijacked session risks, trading off atomic token database writes on every token refresh.",
     },
     links: { repo: "https://github.com/Aayush-2825/pjmb" },
     images: [],
     caseStudy: {
       focus: [
         "Authentication architecture",
-        "Token lifecycle",
-        "Security",
-        "OAuth",
-        "Sessions",
-        "Refresh-token design",
-        "Validation",
-        "Abuse prevention",
+        "Token lifecycle & family trees",
+        "Replay attack mitigation",
+        "Speakeasy TOTP 2FA",
+        "OAuth federation",
+        "Tiered token-bucket rate limits",
+        "Winston audit logging & log rotation",
+        "10-minute brute force lockouts",
       ],
       features: [
-        { label: "Email and password authentication", built: true },
-        { label: "Google OAuth",                      built: true },
-        { label: "Sessions",                          built: true },
-        { label: "JWT access tokens",                 built: true },
-        { label: "Refresh-token rotation",            built: true },
-        { label: "2FA (TOTP authenticator)",          built: true },
-        { label: "Request validation with Zod",       built: true },
-        { label: "Helmet security headers",           built: true },
-        { label: "Rate limiting token bucket",        built: true },
+        { label: "Express 5 REST API architecture",          built: true },
+        { label: "MongoDB Mongoose token store",             built: true },
+        { label: "Rotating refresh token families",          built: true },
+        { label: "Token reuse / replay attack revocation",   built: true },
+        { label: "Speakeasy TOTP 2FA verification",          built: true },
+        { label: "Single-use emergency recovery codes",       built: true },
+        { label: "10-minute account lockout after 5 fails",  built: true },
+        { label: "Tiered token-bucket rate limits",          built: true },
+        { label: "Winston daily-rotate audit logging",       built: true },
+        { label: "Zod contract schema validation",           built: true },
       ],
       architecture: {
         label: "Request and token lifecycle",

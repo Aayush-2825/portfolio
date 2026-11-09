@@ -90,6 +90,7 @@ export function TerminalDrawer({
                 "  github       - Show verified public repositories under Aayush-2825",
                 "  dozo         - Deep-dive into DOZO (on-demand domestic services startup)",
                 "  viewproof    - Inspect ViewProof (real-time photo proofing & watermark engine)",
+                "  pjmb         - Inspect pjmb Auth Backend (rotating token families & 2FA)",
                 "  stack        - Breakdown of full-stack engineering layers",
                 "  simulate     - Jump to live real-time booking dispatch simulator",
                 "  contact      - Display contact links and direct mail address",
@@ -178,6 +179,27 @@ export function TerminalDrawer({
                 "Live App:   https://view-proof.vercel.app",
                 "GitHub:     https://github.com/Aayush-2825/ViewProof",
                 "DEV.to:     https://dev.to/aayush2825/building-viewproof-real-time-photo-proofing-with-react-19-and-firestore",
+              ].join("\n"),
+            },
+          ]);
+          break;
+
+        case "pjmb":
+        case "auth":
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: `out-${lineId}`,
+              type: "success",
+              text: [
+                "PJMB · PRODUCTION AUTH & THREAT MITIGATION BACKEND",
+                "Stack: Express 5, MongoDB Mongoose, TypeScript, Passport.js, Speakeasy TOTP, Zod, Helmet, Winston",
+                "Key Invariants:",
+                "  • Rotating refresh token families with automatic replay attack revocation",
+                "  • Speakeasy TOTP 2FA verification + single-use emergency recovery codes",
+                "  • 10-minute brute-force lockout after 5 consecutive failed attempts",
+                "  • Tiered token-bucket rate limits + Winston daily-rotate audit logging",
+                "GitHub: https://github.com/Aayush-2825/pjmb",
               ].join("\n"),
             },
           ]);
