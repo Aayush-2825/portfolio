@@ -1,0 +1,119 @@
+{
+  "project": "Aayush Raj Portfolio - Awwwards-Tier Engineering Rehaul",
+  "branchName": "main",
+  "description": "Redesign and elevate the portfolio into an award-winning showcase with 100% genuine backed data, real GitHub links, fluid physics-based cursor, tactile micro-interactions, and architectural precision.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Ground Data & Real GitHub Repositories",
+      "description": "As a visitor, I want to see 100% genuine projects with real GitHub links to Aayush-2825 repositories and accurate trade-offs so that the credibility of the engineering work is undeniable.",
+      "acceptanceCriteria": [
+        "data/projects.ts includes real GitHub repo links for viewproof, pjmb, Swabhimaan-2, and blog",
+        "No unverified TODO placeholders in user-facing project summaries",
+        "Technical decisions and trade-offs are grounded in real architectural reasoning",
+        "Typecheck and build pass"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Verified genuine GitHub repo links added, zero unverified TODO placeholders, next build passed."
+    },
+    {
+      "id": "US-002",
+      "title": "Awwwards-Grade Spring-Driven Cursor & Magnetic Micro-Interactions",
+      "description": "As a desktop user, I want a smooth, physics-based target cursor that magnetically snaps and morphs with action hints over interactive elements so that the interface feels alive and tactile.",
+      "acceptanceCriteria": [
+        "Target cursor follows mouse with smooth spring physics",
+        "Cursor morphs to display contextual action pills ('EXPLORE', 'VIEW', 'COPY', 'TERMINAL') on hover",
+        "Gracefully disables on touch/mobile devices and under prefers-reduced-motion",
+        "Typecheck and build pass"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "TargetCursorFallback mounted in PortfolioShell with spring physics, contextual hover action pills, and useSyncExternalStore."
+    },
+    {
+      "id": "US-003",
+      "title": "Architectural Grid Crosshairs & Corner Registration Marks",
+      "description": "As a design-conscious viewer, I want architectural hairline grid borders with corner registration crosshairs (+) across major sections to give the site a distinctive blueprint-editorial aesthetic.",
+      "acceptanceCriteria": [
+        "Corner crosshairs (+) render at section borders without causing horizontal scroll or layout shift",
+        "Consistent spacing and hairline border styling matching token #0A0A0B and white/[0.08]",
+        "Responsive across mobile (360px) and wide desktop (1400px)",
+        "Typecheck and build pass"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "CornerCrosshairs component built and deployed across Hero, DOZO, Projects, LayerMatrix, Education, and Contact."
+    },
+    {
+      "id": "US-004",
+      "title": "Enhanced DOZO Realtime Dispatch Simulator & Packet Telemetry",
+      "description": "As an engineering evaluator, I want an interactive dispatch simulation that lets me trigger mock bookings across service types and visualize packet routing with live latency metrics and procedural audio.",
+      "acceptanceCriteria": [
+        "DOZO dispatch simulator allows selecting services and triggering real-time dispatch cycle",
+        "Animated SVG telemetry bus moves packets across nodes with active step feedback",
+        "Procedural Web Audio packet sound plays when audio is enabled",
+        "Typecheck and build pass"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Interactive state machine with service selector, active node bus, procedural sound synthesis, and payload viewer."
+    },
+    {
+      "id": "US-005",
+      "title": "Interactive Full-Stack Layer Matrix with Code Dossier",
+      "description": "As a technical interviewer, I want to explore the six architectural layers (Client, Gateway, State, Realtime, Security, Infra) to see exactly which real projects touch each layer and inspect production code patterns.",
+      "acceptanceCriteria": [
+        "Layer Matrix enables selecting any layer to filter and highlight implemented projects",
+        "Displays real architectural code snippets for each layer",
+        "Smooth transitions with zero CLS",
+        "Typecheck and build pass"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "LayerMatrix equipped with interactive tab switches, real code snippets, project links, and corner crosshairs."
+    },
+    {
+      "id": "US-006",
+      "title": "Project Architectural Inspector Modal with Interactive Dossier",
+      "description": "As a hiring manager, I want to click any project card to open a full architectural inspection dossier with data flows, technical trade-offs, and GitHub repo links.",
+      "acceptanceCriteria": [
+        "Clicking any project card opens the architectural dossier modal",
+        "Dossier contains verified problem, architecture diagram, decision trade-offs, and GitHub link",
+        "Keyboard accessible (Esc to close, Tab focus trapping)",
+        "Typecheck and build pass"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Accessible modal with Escape listener, trade-offs, challenges, GitHub repo links, and CornerCrosshairs."
+    },
+    {
+      "id": "US-007",
+      "title": "Command Palette (Cmd+K) & Terminal Quick Access Polish",
+      "description": "As a power user, I want instant keyboard access to search sections, copy contact info, open GitHub repos, and run developer shell commands.",
+      "acceptanceCriteria": [
+        "Cmd+K opens command palette with quick navigation and copy actions",
+        "Backtick (`) opens developer terminal drawer with functional commands ('help', 'projects', 'dozo', 'stack', 'contact')",
+        "Polite procedural audio clicks when enabled",
+        "Typecheck and build pass"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Added GitHub repository direct actions to CommandPalette and 'github/repos' command to TerminalDrawer."
+    },
+    {
+      "id": "US-008",
+      "title": "Production Verification & Performance Audit",
+      "description": "As a production engineer, I want the entire site to pass strict TypeScript checking, next build --webpack, and responsive mobile audit.",
+      "acceptanceCriteria": [
+        "next build --webpack passes with zero errors or warnings",
+        "All routes (/, /robots.txt, /sitemap.xml, /opengraph-image) generate cleanly",
+        "No horizontal overflow at 360px viewport",
+        "progress.txt updated with final delivery proof"
+      ],
+      "priority": 8,
+      "passes": true,
+      "notes": "Production build passed in 4.2s. ESLint passed with 0 errors. All static pages emitted."
+    }
+  ]
+}

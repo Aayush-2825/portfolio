@@ -1,146 +1,200 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, Copy, Check, Mail } from "lucide-react";
+import { sound } from "@/lib/sound";
 import { profile } from "@/data/profile";
-import { MagnetFallback } from "@/components/v2/MagnetFallback";
+import {
+  Mail,
+  Copy,
+  Check,
+  Send,
+  ArrowUpRight,
+  Sparkles,
+  MapPin,
+  Clock,
+  FileDown,
+} from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
+import { Magnetic } from "@/components/interactive/Magnetic";
+import { cn } from "@/lib/utils";
 
 export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean }) {
   const [copied, setCopied] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
   const email = profile.links.email || "aayush.ardy@gmail.com";
 
   const handleCopyEmail = () => {
     if (navigator?.clipboard) {
       navigator.clipboard.writeText(email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
+      sound.playSuccess();
+      setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  const handleSendMail = (e: React.FormEvent) => {
+    e.preventDefault();
+    sound.playClick(1200);
+    const sub = encodeURIComponent(subject || "Full-Stack Internship Opportunity 2026");
+    const body = encodeURIComponent(message || `Hi Aayush,\n\nI reviewed your portfolio and would like to connect regarding an engineering role.`);
+    window.location.href = `mailto:${email}?subject=${sub}&body=${body}`;
   };
 
   return (
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="relative overflow-x-clip border-t border-border bg-surface/40 py-12 sm:py-16"
+      className="relative overflow-hidden border-t border-border bg-background py-24 sm:py-32"
     >
-      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12 z-10">
-        <div className="rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-10 shadow-xl backdrop-blur-md">
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            {/* Left: Heading + pitch */}
-            <div>
+      {/* Background Lighting */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="hero-grid absolute inset-0 opacity-20" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[350px] bg-accent/5 blur-[140px] rounded-full" />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="relative rounded-3xl border border-border/80 bg-surface/90 p-8 sm:p-12 shadow-2xl backdrop-blur-md">
+          <CornerCrosshairs />
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
+            {/* Left: Pitch & Value Proposition */}
+            <div className="lg:col-span-6 space-y-6">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">
-                  Connect
+                <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                  Get in Touch
                 </span>
-                <span className="h-px w-6 bg-border" />
-                <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Open to remote internships, 2026
+                <span className="h-px w-8 bg-border" />
+                <span className="flex items-center gap-1.5 font-mono text-[11px] text-emerald-400">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Available for 2026 Remote Internships</span>
                 </span>
               </div>
 
               <h2
                 id="contact-title"
-                className="mt-3 font-heading text-3xl sm:text-5xl tracking-tight text-foreground"
+                className="font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground leading-[1.05]"
               >
-                Let&apos;s build something{" "}
-                <span className="text-accent underline decoration-accent/30 decoration-wavy underline-offset-4">
-                  deliberate
-                </span>
-                .
+                Let&apos;s build something <span className="text-accent underline decoration-accent/30 underline-offset-8">deliberate</span>.
               </h2>
 
-              {/* What I'm looking for */}
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-lg">
-                Looking for remote internships and technical collaboration opportunities in 2026.
-                Open to full-stack, backend, or product-engineering roles.
+              <p className="text-base text-foreground/80 leading-relaxed max-w-lg">
+                I am actively interviewing for 2026 remote full-stack, backend, and product engineering internships. Open to discussing startup ventures, distributed systems challenges, and contract work.
               </p>
 
-              {/* Direct email */}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                {/* Mailto link */}
+              {/* Quick Info Badges */}
+              <div className="grid grid-cols-2 gap-3 font-mono text-xs pt-2">
+                <div className="rounded-xl border border-border/70 bg-background/80 p-3.5">
+                  <span className="text-[10px] text-muted-foreground uppercase block">Location / Zone</span>
+                  <span className="text-foreground font-semibold mt-1 block">India (IST / UTC+5:30)</span>
+                </div>
+                <div className="rounded-xl border border-border/70 bg-background/80 p-3.5">
+                  <span className="text-[10px] text-muted-foreground uppercase block">Response Time</span>
+                  <span className="text-emerald-400 font-semibold mt-1 block">&lt; 24 hours</span>
+                </div>
+              </div>
+
+              {/* Direct Copy Email Box */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Magnetic strength={0.2}>
+                  <button
+                    type="button"
+                    data-cursor="COPY"
+                    onClick={handleCopyEmail}
+                    className="group inline-flex items-center gap-2.5 rounded-full border border-accent/50 bg-accent/10 px-5 py-2.5 font-mono text-xs font-semibold text-accent transition-all hover:bg-accent hover:text-background active:scale-95"
+                  >
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    <span>{copied ? "Copied to Clipboard!" : email}</span>
+                  </button>
+                </Magnetic>
+
                 <a
                   href={`mailto:${email}`}
-                  className="group inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 font-mono text-xs uppercase tracking-wider text-foreground transition-all hover:border-accent hover:bg-accent hover:text-primary-foreground"
-                  aria-label={`Send email to ${email}`}
+                  data-cursor="MAIL"
+                  onClick={() => sound.playClick(1200)}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/80 px-5 py-2.5 font-mono text-xs text-foreground transition-colors hover:border-accent hover:text-accent"
                 >
-                  <Mail size={13} className="text-accent group-hover:text-primary-foreground transition-colors" />
-                  <span>{email}</span>
+                  <Mail size={14} />
+                  <span>Open Email Client</span>
+                  <ArrowUpRight size={12} className="opacity-70" />
+                </a>
+              </div>
+
+              {/* Social Channels */}
+              <div className="pt-4 border-t border-border/60 flex items-center gap-4">
+                <a
+                  href={profile.links.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => sound.playClick(1000)}
+                  className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-foreground"
+                >
+                  <GithubIcon className="h-4 w-4" />
+                  <span>GitHub</span>
+                  <ArrowUpRight size={11} className="opacity-60" />
                 </a>
 
-                {/* Copy button */}
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  aria-label="Copy email address"
-                  className="group inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/60 px-4 py-2 font-mono text-xs uppercase tracking-wider text-muted-foreground transition-all hover:border-accent hover:text-accent active:scale-95 cursor-pointer"
+                <a
+                  href={profile.links.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => sound.playClick(1000)}
+                  className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-foreground"
                 >
-                  {copied ? (
-                    <>
-                      <Check size={13} className="text-emerald-400" />
-                      <span className="font-bold text-emerald-400">Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={13} />
-                      <span>Copy</span>
-                    </>
-                  )}
-                </button>
+                  <LinkedinIcon className="h-4 w-4" />
+                  <span>LinkedIn</span>
+                  <ArrowUpRight size={11} className="opacity-60" />
+                </a>
               </div>
             </div>
 
-            {/* Right: Links */}
-            <div className="flex flex-col gap-4 lg:items-end">
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Profiles
-              </span>
-
-              <div className="flex flex-wrap gap-2.5 lg:justify-end">
-                <MagnetFallback>
-                  <a
-                    href={profile.links.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub profile (opens in new tab)"
-                    className="group inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/60 px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-foreground/90 transition-all duration-200 hover:border-accent hover:bg-accent/10 hover:text-accent hover:-translate-y-0.5"
-                  >
-                    <span>GitHub</span>
-                    <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </MagnetFallback>
-
-                <MagnetFallback>
-                  <a
-                    href={profile.links.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="LinkedIn profile (opens in new tab)"
-                    className="group inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/60 px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-foreground/90 transition-all duration-200 hover:border-accent hover:bg-accent/10 hover:text-accent hover:-translate-y-0.5"
-                  >
-                    <span>LinkedIn</span>
-                    <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </MagnetFallback>
-
-                {resumeAvailable && (
-                  <MagnetFallback>
-                    <a
-                      href={profile.links.resume}
-                      aria-label="Download resume (PDF)"
-                      className="group inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/60 px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-foreground/90 transition-all duration-200 hover:border-accent hover:bg-accent/10 hover:text-accent hover:-translate-y-0.5"
-                    >
-                      <span>Resume</span>
-                      <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </a>
-                  </MagnetFallback>
-                )}
+            {/* Right: Quick Direct Composer */}
+            <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-xl">
+              <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                  Quick Message Composer
+                </span>
+                <span className="font-mono text-[10px] text-muted-foreground">Direct Dispatch</span>
               </div>
 
-              <div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground mt-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span>Based in India · UTC+5:30 (IST)</span>
-              </div>
+              <form onSubmit={handleSendMail} className="mt-5 space-y-4">
+                <div>
+                  <label htmlFor="msg-subject" className="font-mono text-[11px] uppercase text-muted-foreground block mb-1.5">
+                    Subject / Project
+                  </label>
+                  <input
+                    id="msg-subject"
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="e.g., Software Engineering Internship Opportunity"
+                    className="w-full rounded-xl border border-border/80 bg-surface/80 px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent font-sans"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="msg-content" className="font-mono text-[11px] uppercase text-muted-foreground block mb-1.5">
+                    Message Details
+                  </label>
+                  <textarea
+                    id="msg-content"
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Describe your project, team role, or collaboration idea..."
+                    className="w-full rounded-xl border border-border/80 bg-surface/80 p-4 text-xs text-foreground placeholder:text-muted-foreground/50 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent font-sans leading-relaxed resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 font-mono text-xs font-semibold text-background transition-all hover:bg-accent/90 shadow-[0_0_20px_rgba(255,77,31,0.25)] hover:shadow-[0_0_25px_rgba(255,77,31,0.4)]"
+                >
+                  <Send size={14} />
+                  <span>Send Message via Email</span>
+                </button>
+              </form>
             </div>
           </div>
         </div>

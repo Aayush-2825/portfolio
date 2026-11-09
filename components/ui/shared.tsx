@@ -63,7 +63,7 @@ export function SectionHeader({
           }
         >
           {typeof title === "string" ? (
-            <h2 className="font-heading text-[clamp(2.5rem,7vw,6rem)] leading-[0.9] tracking-[-0.045em] text-foreground">
+            <h2 className="font-heading text-[clamp(2.5rem,7vw,6rem)] leading-[0.9] tracking-[-0.045em] text-foreground text-balance">
               {title}
             </h2>
           ) : (

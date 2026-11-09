@@ -1,43 +1,50 @@
 "use client";
 
 import { motion } from "motion/react";
-import { IntroReveal } from "@/components/v2/IntroReveal";
 import { durations, ease, stagger, useMotionOK } from "@/lib/motion";
 
 export function KineticName({ name }: { name: string }) {
   const motionOK = useMotionOK();
-  const letters = name.toUpperCase().split("");
+  const words = name.toUpperCase().split(" ");
+  let globalIndex = 0;
 
   return (
-    <IntroReveal>
-      <span aria-label={name} className="inline-flex flex-wrap" role="text">
-        {letters.map((letter, index) => (
-          <motion.span
-            key={`${letter}-${index}`}
-            aria-hidden="true"
-            initial={motionOK ? { opacity: 0, y: "0.35em" } : false}
-            animate={motionOK ? { opacity: 1, y: 0 } : undefined}
-            whileHover={
-              motionOK
-                ? {
-                    y: -10,
-                    scale: 1.08,
-                    color: "var(--accent)",
-                    transition: { type: "spring", stiffness: 450, damping: 15 },
+    <span
+      aria-label={name}
+      className="inline-flex flex-wrap items-baseline gap-x-[0.25em] text-foreground"
+      role="text"
+    >
+      {words.map((word, wordIdx) => {
+        const letters = word.split("");
+        return (
+          <span key={wordIdx} className="inline-flex whitespace-nowrap">
+            {letters.map((letter) => {
+              const currentIndex = globalIndex++;
+              return (
+                <motion.span
+                  key={`${letter}-${currentIndex}`}
+                  aria-hidden="true"
+                  initial={false}
+                  whileHover={
+                    motionOK
+                      ? {
+                          y: -8,
+                          scale: 1.08,
+                          color: "var(--accent)",
+                          transition: { type: "spring", stiffness: 450, damping: 15 },
+                        }
+                      : undefined
                   }
-                : undefined
-            }
-            transition={
-              motionOK
-                ? { duration: durations.base, ease, delay: index * stagger }
-                : undefined
-            }
-            className="cursor-default select-none transition-colors duration-200"
-          >
-            {letter === " " ? "\u00a0" : letter}
-          </motion.span>
-        ))}
-      </span>
-    </IntroReveal>
+                  className="cursor-default select-none text-foreground font-semibold inline-block transition-colors duration-150"
+                  style={{ opacity: 1, color: "var(--foreground, #f2f0ea)" }}
+                >
+                  {letter}
+                </motion.span>
+              );
+            })}
+          </span>
+        );
+      })}
+    </span>
   );
 }

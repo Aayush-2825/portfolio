@@ -59,7 +59,7 @@ export function Skills() {
             {compactGroups.map((group) => (
               <div
                 key={group.label}
-                className="grid grid-cols-[8rem_1fr] gap-4 px-6 py-5 sm:grid-cols-[10rem_1fr]"
+                className="flex flex-col sm:grid sm:grid-cols-[10rem_1fr] gap-2 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5"
               >
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent pt-0.5 shrink-0">
                   {group.label}
@@ -81,8 +81,8 @@ export function Skills() {
 
         {/* AI & ML — single compact row */}
         <StaggerReveal index={1} className="mb-12">
-          <div className="rounded-xl border border-border/80 bg-background/90 px-6 py-5">
-            <div className="grid grid-cols-[8rem_1fr] gap-4 sm:grid-cols-[10rem_1fr]">
+          <div className="rounded-xl border border-border/80 bg-background/90 px-4 sm:px-6 py-4 sm:py-5">
+            <div className="flex flex-col sm:grid sm:grid-cols-[10rem_1fr] gap-2 sm:gap-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent pt-0.5 shrink-0">
                 AI / ML
               </span>

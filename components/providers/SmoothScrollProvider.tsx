@@ -2,7 +2,7 @@
 
 import Lenis from "lenis";
 import { useEffect, type ReactNode } from "react";
-import "lenis/dist/lenis.css";
+// lenis styles embedded in globals.css
 
 import { useMotionOK } from "@/lib/motion";
 

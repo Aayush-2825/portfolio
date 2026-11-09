@@ -99,11 +99,14 @@ export function DotPattern({
     (_, i) => {
       const col = i % Math.ceil(dimensions.width / width)
       const row = Math.floor(i / Math.ceil(dimensions.width / width))
+      // Deterministic pseudo-random generation to ensure render purity and zero hydration mismatch
+      const rand1 = Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1
+      const rand2 = Math.abs(Math.sin((i + 1) * 78.233) * 43758.5453) % 1
       return {
         x: col * width + cx + x,
         y: row * height + cy + y,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: rand1 * 5,
+        duration: rand2 * 3 + 2,
       }
     }
   )
