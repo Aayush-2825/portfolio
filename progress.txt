@@ -50,3 +50,18 @@
   - npm run lint: 0 errors
   - npm run build --webpack: Compiled successfully, TypeScript passed, 7 static routes generated cleanly.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-09] - Fix Visual Artifact & Remote Sync (Push to origin/main)
+- Trigger: Visual defect reported with screenshot (detached orange circle / dot artifact sticking out on left edge of DOZO card).
+- Root Cause:
+  - Double cursor conflict in `components/PortfolioShell.tsx`: `TargetCursorFallback` had CSS transform clashes between Tailwind's `-translate-x-1/2` and Framer Motion's `style={{ x, y }}` translation, while also lagging behind native cursor.
+  - `<ParticleMeshCanvas />` in `components/PortfolioShell.tsx` violated engineering rules forbidding floating status dots / canvas particles.
+- Actions Taken:
+  - Removed `<TargetCursorFallback />` and `<ParticleMeshCanvas />` from `components/PortfolioShell.tsx`.
+  - Cleaned `.gitignore` to avoid checking in screenshots or scratch files.
+  - Verified `npm run lint` (0 errors) and `npm run build` (0 errors, 7 static routes).
+  - Committed as `f9dad76` ("feat: Awwwards-tier portfolio rehaul with grounded GitHub data, interactive architecture topologies, and architectural grid").
+  - Pushed to `origin/main` (`9cfd537..f9dad76`).
+--------------------------------------------------
