@@ -119,7 +119,8 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
           exit={{ opacity: 0, y: -24, filter: "blur(8px)" }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           onClick={handleFinish}
-          className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#070709] p-6 sm:p-12 font-mono text-foreground select-none cursor-pointer"
+          data-lenis-prevent
+          className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#070709] p-6 sm:p-12 font-mono text-foreground select-none cursor-pointer overscroll-contain"
         >
           {/* Top Telemetry */}
           <div className="flex items-center justify-between text-xs text-muted-foreground border-b border-white/[0.08] pb-4">

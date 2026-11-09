@@ -165,10 +165,10 @@ export function LayerMatrix() {
 
           <h2
             id="layer-matrix-title"
-            className="mt-4 font-heading text-3xl sm:text-5xl lg:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground break-words"
+            className="mt-4 font-heading text-3xl sm:text-5xl lg:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
-            <span className="whitespace-nowrap">Full-Stack</span>{" "}
-            <span className="whitespace-nowrap text-muted-foreground font-normal">Systems Matrix</span>
+            <span>Full-Stack</span>{" "}
+            <span className="text-muted-foreground font-normal">Systems Matrix</span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed break-words max-w-3xl">

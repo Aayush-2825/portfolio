@@ -290,3 +290,40 @@
 - Milestone 2 Status:
   - 16 of 16 user stories passed (100% Complete). Both Milestone 1 and Milestone 2 fully delivered and verified.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-09] - UI/UX Polish: Dialog Scroll Fix, Icon Orientation, TypeUI Skills & Responsive Typography
+- Files Created/Modified:
+  - app/globals.css
+  - components/providers/SmoothScrollProvider.tsx
+  - components/sections/ProjectsGrid.tsx
+  - components/interactive/TerminalDrawer.tsx
+  - components/interactive/CommandPalette.tsx
+  - components/interactive/Preloader.tsx
+  - components/interactive/ViewProofSimulator.tsx
+  - components/sections/DozoShowcase.tsx
+  - components/sections/LayerMatrix.tsx
+  - components/sections/PrinciplesLab.tsx
+  - components/ui/sheet.tsx
+  - skills-lock.json
+  - progress.txt
+- Accomplishments:
+  - Installed TypeUI / Awesome-Design-Skills packages via `npx skills add https://github.com/bergside/awesome-design-skills` (bento, contemporary, minimal, mono, storytelling).
+  - Fixed Dialog Scrolling:
+    1. Identified Lenis virtual scroll intercepting wheel and touch events on nested modal overlays.
+    2. Added `data-lenis-prevent` and `overscroll-contain` to dialog backdrops, modal containers, and inner code blocks across ProjectsGrid, TerminalDrawer, and CommandPalette.
+    3. Exposed `window.__lenis` in SmoothScrollProvider, allowing dialogs to cleanly call `lenis.stop()` on open and `lenis.start()` on close with background `overflow: hidden` lock.
+  - Fixed Dialog Icon Orientation:
+    1. Resolved button flex alignment in `globals.css` where `min-width: 44px` expanded buttons without `justify-content: center`, shifting icons off-center.
+    2. Explicitly styled all dialog close buttons as `inline-flex items-center justify-center rounded-full shrink-0` for dead-center sub-pixel orientation.
+  - Responsive Screen Optimization & Text Wrapping:
+    1. Enabled `text-wrap: balance` for all headings and `text-wrap: pretty` for paragraphs sitewide in `globals.css`.
+    2. Added `overflow-x: clip` on `body` to eliminate horizontal scrollbars on mobile (<640px) without breaking position sticky.
+    3. Removed forced `whitespace-nowrap` on hero/section headings that caused overflow on narrow 320px–360px mobile viewports.
+    4. Added `break-all font-mono` on long Cloudinary URLs in ViewProofSimulator to avoid clipping.
+- Verification:
+  - npx tsc --noEmit: Exited with code 0 (0 type errors).
+  - npm run lint: Exited with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 14.5s, all 7 static pages emitted in 1.79s with 0 errors.
+--------------------------------------------------

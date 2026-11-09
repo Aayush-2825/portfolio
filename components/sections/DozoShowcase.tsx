@@ -291,10 +291,10 @@ export function DozoShowcase() {
 
           <h2
             id="dozo-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground"
+            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
-            <span className="whitespace-nowrap">DOZO <span className="text-muted-foreground font-normal">·</span></span>{" "}
-            <span className="whitespace-nowrap text-muted-foreground font-normal">Real-Time Platform</span>
+            <span>DOZO <span className="text-muted-foreground font-normal">·</span></span>{" "}
+            <span className="text-muted-foreground font-normal">Real-Time Platform</span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed max-w-3xl">

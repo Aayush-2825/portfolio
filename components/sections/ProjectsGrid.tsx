@@ -42,7 +42,16 @@ export function ProjectsGrid() {
     };
     if (selectedProject) {
       window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+      lenis?.stop();
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = originalOverflow;
+        lenis?.start();
+      };
     }
   }, [selectedProject]);
 
@@ -227,11 +236,13 @@ export function ProjectsGrid() {
           role="dialog"
           aria-modal="true"
           aria-label={selectedProject.name}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-background/80"
+          data-lenis-prevent
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 backdrop-blur-md bg-background/80 overscroll-contain"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl border border-border/90 bg-surface p-6 sm:p-8 shadow-2xl transition-all"
+            data-lenis-prevent
+            className="relative w-full max-w-2xl max-h-[88vh] sm:max-h-[85vh] overflow-y-auto overscroll-contain rounded-2xl border border-border/90 bg-surface p-5 sm:p-8 shadow-2xl transition-all"
             onClick={(e) => e.stopPropagation()}
           >
             <CornerCrosshairs />
@@ -240,14 +251,14 @@ export function ProjectsGrid() {
 
             {/* Modal Header */}
             <div className="flex items-start justify-between gap-4 border-b border-border/60 pb-4">
-              <div>
+              <div className="min-w-0 flex-1">
                 <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
                   {selectedProject.category}
                 </span>
-                <h3 className="font-heading text-3xl font-semibold text-foreground mt-1">
+                <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground mt-1 text-balance">
                   {selectedProject.name}
                 </h3>
-                <span className="font-mono text-xs text-muted-foreground mt-0.5 block">
+                <span className="font-mono text-xs text-muted-foreground mt-0.5 block truncate">
                   Role: {selectedProject.role}
                 </span>
               </div>
@@ -258,7 +269,7 @@ export function ProjectsGrid() {
                   sound.playClick(800);
                   setSelectedProject(null);
                 }}
-                className="rounded-full border border-border/70 p-2 text-muted-foreground hover:bg-background hover:text-foreground"
+                className="inline-flex h-9 w-9 min-h-9 min-w-9 items-center justify-center rounded-full border border-border/70 text-muted-foreground hover:bg-background hover:text-foreground shrink-0 transition-colors"
                 aria-label="Close dialog"
               >
                 <X size={16} />

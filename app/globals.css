@@ -199,9 +199,10 @@
   button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 
-    min-width: 44px !important;
-    min-height: 44px !important;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   button,
@@ -251,6 +252,15 @@
   body {
     @apply bg-background text-foreground;
     min-height: 100vh;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   html {

@@ -138,7 +138,7 @@ export function ViewProofSimulator() {
           <Eye size={10} />
           <span>Cloudinary On-The-Fly Dynamic URL Pipeline:</span>
         </div>
-        <div className="text-foreground/80 truncate">
+        <div className="text-foreground/80 break-all select-all leading-normal">
           https://res.cloudinary.com/viewproof/image/upload/
           <span className={watermarkEnabled ? "text-sky-300 font-bold" : "text-muted-foreground line-through"}>
             l_watermark_logo,g_center,opacity_40/

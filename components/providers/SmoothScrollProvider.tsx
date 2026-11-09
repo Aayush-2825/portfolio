@@ -19,6 +19,10 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       syncTouch: false, // Keep native touch scrolling on mobile/tablets so height is never capped
     });
 
+    if (typeof window !== "undefined") {
+      (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+    }
+
     // Continuously sync scroll bounds whenever dynamic DOM nodes expand/render
     const resizeObserver = new ResizeObserver(() => {
       lenis.resize();
@@ -75,6 +79,9 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      if (typeof window !== "undefined") {
+        delete (window as unknown as { __lenis?: Lenis }).__lenis;
+      }
       lenis.destroy();
     };
   }, [motionOK]);

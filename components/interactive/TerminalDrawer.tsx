@@ -48,6 +48,15 @@ export function TerminalDrawer({
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+      lenis?.stop();
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        lenis?.start();
+      };
     }
   }, [isOpen]);
 
@@ -399,12 +408,14 @@ export function TerminalDrawer({
       role="dialog"
       aria-modal="true"
       aria-label="Developer Shell Terminal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 backdrop-blur-md bg-background/80"
+      data-lenis-prevent
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 backdrop-blur-md bg-background/80 overscroll-contain"
       onClick={onClose}
     >
       <div
+        data-lenis-prevent
         className={cn(
-          "flex flex-col overflow-hidden rounded-xl border border-border/90 bg-[#070709] shadow-2xl font-mono text-xs transition-all duration-300",
+          "flex flex-col overflow-hidden rounded-xl border border-border/90 bg-[#070709] shadow-2xl font-mono text-xs transition-all duration-300 overscroll-contain",
           isMaximized
             ? "fixed inset-2 sm:inset-6"
             : "w-full max-w-2xl h-[82vh] sm:h-[520px] max-h-[92vh]"
@@ -413,22 +424,22 @@ export function TerminalDrawer({
       >
         {/* Window Chrome Title Bar */}
         <div className="flex h-10 items-center justify-between border-b border-border/80 bg-surface/90 px-4 shrink-0 select-none">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block cursor-pointer" onClick={onClose} />
-              <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block cursor-pointer" onClick={() => setIsMaximized(!isMaximized)} />
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block cursor-pointer hover:opacity-80" onClick={onClose} />
+              <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block cursor-pointer hover:opacity-80" onClick={() => setIsMaximized(!isMaximized)} />
               <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block cursor-pointer" />
             </div>
-            <span className="ml-3 font-mono text-[11px] text-muted-foreground">
+            <span className="ml-3 font-mono text-[11px] text-muted-foreground truncate">
               aayush@nit-hamirpur: ~ (zsh)
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               type="button"
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-1 text-muted-foreground hover:text-foreground"
+              className="inline-flex h-7 w-7 min-h-7 min-w-7 items-center justify-center rounded text-muted-foreground hover:bg-white/10 hover:text-foreground shrink-0 transition-colors"
               aria-label={isMaximized ? "Restore terminal window" : "Maximize terminal window"}
             >
               {isMaximized ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
@@ -436,7 +447,7 @@ export function TerminalDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="p-1 text-muted-foreground hover:text-foreground"
+              className="inline-flex h-7 w-7 min-h-7 min-w-7 items-center justify-center rounded text-muted-foreground hover:bg-white/10 hover:text-foreground shrink-0 transition-colors"
               aria-label="Close terminal window"
             >
               <X size={15} />
@@ -445,7 +456,7 @@ export function TerminalDrawer({
         </div>
 
         {/* Console Output Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2 select-text leading-relaxed">
+        <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-2 select-text leading-relaxed">
           {history.map((line) => {
             if (line.type === "input") {
               return (

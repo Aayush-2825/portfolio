@@ -268,6 +268,21 @@ export function CommandPalette({
     return () => window.removeEventListener("open-command-palette", handleOpenEvent);
   }, []);
 
+  // Body scroll lock and Lenis pause while palette is open
+  useEffect(() => {
+    if (open) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+      lenis?.stop();
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        lenis?.start();
+      };
+    }
+  }, [open]);
+
   return (
     <>
       {/* Search trigger button in navigation bar */}
@@ -294,11 +309,13 @@ export function CommandPalette({
           role="dialog"
           aria-modal="true"
           aria-label="Command palette"
-          className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-4 pt-16 sm:pt-24 backdrop-blur-md bg-background/85"
+          data-lenis-prevent
+          className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-4 pt-16 sm:pt-24 backdrop-blur-md bg-background/85 overscroll-contain"
           onClick={close}
         >
           <div
-            className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#0c0d12] shadow-2xl transition-all"
+            data-lenis-prevent
+            className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#0c0d12] shadow-2xl transition-all overscroll-contain"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Search Input Bar */}
@@ -319,7 +336,7 @@ export function CommandPalette({
                 <button
                   type="button"
                   onClick={() => setQuery("")}
-                  className="text-xs text-muted-foreground hover:text-foreground px-1 font-mono"
+                  className="text-xs text-muted-foreground hover:text-foreground px-1 font-mono shrink-0"
                 >
                   Clear
                 </button>
@@ -327,7 +344,7 @@ export function CommandPalette({
               <button
                 type="button"
                 onClick={close}
-                className="rounded-full p-1 text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors"
+                className="inline-flex h-8 w-8 min-h-8 min-w-8 items-center justify-center rounded-full text-muted-foreground hover:bg-white/10 hover:text-foreground shrink-0 transition-colors"
                 aria-label="Close command palette"
               >
                 <X size={16} />
@@ -357,7 +374,7 @@ export function CommandPalette({
             </div>
 
             {/* Command Results */}
-            <div className="max-h-[55vh] sm:max-h-80 overflow-y-auto p-2">
+            <div data-lenis-prevent className="max-h-[55vh] sm:max-h-80 overflow-y-auto overscroll-contain p-2">
               {filtered.length === 0 ? (
                 <div className="py-8 text-center text-xs font-mono text-muted-foreground">
                   No commands matching &quot;{query}&quot;

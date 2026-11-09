@@ -206,10 +206,10 @@ export function PrinciplesLab() {
 
           <h2
             id="principles-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground"
+            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
-            <span className="whitespace-nowrap">How I Engineer</span>{" "}
-            <span className="whitespace-nowrap text-muted-foreground font-normal">
+            <span>How I Engineer</span>{" "}
+            <span className="text-muted-foreground font-normal">
               <span className="opacity-40 mx-1 hidden sm:inline">·</span>Code Lab
             </span>
           </h2>
