@@ -375,3 +375,20 @@
   - npm run lint: Passed with code 0 (0 errors, 0 warnings).
   - npm run build (next build --webpack): Compiled in 7.1s, all 7 static pages emitted in 1.8s with 0 errors.
 --------------------------------------------------
+
+--------------------------------------------------
+[2026-11-10] - Resolve Card Visibility, Eliminate Misaligned Floating Timeline & Stabilize Lenis Scrolling
+- Trigger: User feedback stating GSAP animations caused all cards in Selected Works to be invisible, and the floating timeline was broken, oversized, and misaligned.
+- Root Cause Analysis:
+  1. `gsap.from(cards, { opacity: 0 })` in `ProjectsGrid.tsx` combined with `PageScrollNarrative` targeting `.grid` forced `opacity: 0` inline on cards before scroll thresholds were met, causing all Selected Works cards to get stuck in an invisible state.
+  2. The floating `<aside>` timeline rail was crowding the right viewport edge and clashing with content.
+  3. `autoRaf: false` with GSAP ticker delegating `time * 1000` occasionally desynced scroll RAF frames.
+- Actions Taken:
+  1. Completely removed `PageScrollNarrative.tsx` and unmounted it from `PortfolioShell.tsx`.
+  2. Removed `gsap.from(cards, { opacity: 0 })` from `ProjectsGrid.tsx` and `PrinciplesLab.tsx`. All cards in Selected Works (`DOZO`, `ViewProof`, `pjmb Auth`, `Swabhimaan-2`, `Engineering Blog`, plus research projects) are now 100% visible and rendered natively with zero JS hiding.
+  3. Restored native high-resolution `requestAnimationFrame` loop in `SmoothScrollProvider.tsx` (`lenis.raf(time)`), eliminating ticker lagSmoothing desync while preserving `lenis.on("scroll", ScrollTrigger.update)`.
+- Verification:
+  - npx tsc --noEmit: Passed with code 0 (0 type errors).
+  - npm run lint: Passed with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 6.6s, all 7 static pages emitted in 1.5s with 0 errors.
+--------------------------------------------------

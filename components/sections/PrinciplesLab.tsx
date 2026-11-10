@@ -1,16 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { useMotionOK } from "@/lib/motion";
 import { sound } from "@/lib/sound";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import {
   Cpu,
@@ -192,33 +184,6 @@ export function PrinciplesLab() {
   const [activePrinciple, setActivePrinciple] = useState<PrincipleComparison>(COMPARISONS[0]);
   const [viewMode, setViewMode] = useState<"production" | "comparison">("comparison");
   const [mobileTab, setMobileTab] = useState<"tutorial" | "production">("production");
-  const tabsContainerRef = useRef<HTMLDivElement>(null);
-  const motionOK = useMotionOK();
-
-  useGSAP(
-    () => {
-      if (!motionOK || !tabsContainerRef.current) return;
-
-      const tabs = gsap.utils.toArray<HTMLElement>(".principle-blueprint-tab");
-      if (tabs.length === 0) return;
-
-      gsap.from(tabs, {
-        scrollTrigger: {
-          trigger: tabsContainerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-        y: 25,
-        opacity: 0,
-        scale: 0.985,
-        duration: 0.75,
-        stagger: 0.1,
-        ease: "power2.out",
-        clearProps: "all",
-      });
-    },
-    { scope: tabsContainerRef, dependencies: [motionOK] }
-  );
 
   return (
     <section
@@ -255,7 +220,7 @@ export function PrinciplesLab() {
         </div>
 
         {/* Principle Selector Tabs */}
-        <div ref={tabsContainerRef} className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {COMPARISONS.map((comp) => {
             const isSelected = activePrinciple.id === comp.id;
 

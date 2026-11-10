@@ -15,7 +15,6 @@ import { TerminalDrawer } from "@/components/interactive/TerminalDrawer";
 import { Preloader } from "@/components/interactive/Preloader";
 import { InfiniteMarquee } from "@/components/interactive/InfiniteMarquee";
 import { ConsoleEasterEgg } from "@/components/interactive/ConsoleEasterEgg";
-import { PageScrollNarrative } from "@/components/interactive/PageScrollNarrative";
 import { sound } from "@/lib/sound";
 
 export function PortfolioShell({
@@ -49,9 +48,6 @@ export function PortfolioShell({
 
       {/* Top Navigation */}
       <Nav openTerminal={() => setTerminalOpen(true)} />
-
-      {/* Blueprint Dynamic Page Scroll Narrative & Progress Rail */}
-      <PageScrollNarrative />
 
       <main id="main-content" className="relative z-10">
         {/* 1. Hero with Live Telemetry & Interactive Architecture Canvas */}

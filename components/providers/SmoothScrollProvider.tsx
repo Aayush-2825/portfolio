@@ -41,12 +41,13 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     // Connect Lenis scroll events to GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
-    // Sync Lenis RAF with GSAP's precision ticker
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
+    // Native high-resolution requestAnimationFrame loop for ultra-smooth 60fps/120fps scrolling
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     };
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+    rafId = requestAnimationFrame(raf);
 
     // Continuously sync scroll bounds whenever dynamic DOM nodes expand/render
     const resizeObserver = new ResizeObserver(() => {
@@ -97,7 +98,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     document.addEventListener("click", handleAnchorClick);
 
     return () => {
-      gsap.ticker.remove(tickerCallback);
+      cancelAnimationFrame(rafId);
       lenis.off("scroll", ScrollTrigger.update);
       resizeObserver.disconnect();
       window.removeEventListener("resize", onResize);
