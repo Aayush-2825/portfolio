@@ -1,7 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useMotionOK } from "@/lib/motion";
 import { sound } from "@/lib/sound";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
@@ -33,6 +41,33 @@ const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
 
 export function ProjectsGrid() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const gridContainerRef = useRef<HTMLDivElement>(null);
+  const motionOK = useMotionOK();
+
+  useGSAP(
+    () => {
+      if (!motionOK || !gridContainerRef.current) return;
+
+      const cards = gsap.utils.toArray<HTMLElement>(".project-blueprint-card");
+      if (cards.length === 0) return;
+
+      gsap.from(cards, {
+        scrollTrigger: {
+          trigger: gridContainerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        y: 40,
+        opacity: 0,
+        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+        duration: 0.85,
+        stagger: 0.15,
+        ease: "power3.out",
+        clearProps: "clipPath,transform",
+      });
+    },
+    { scope: gridContainerRef, dependencies: [motionOK] }
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -85,7 +120,7 @@ export function ProjectsGrid() {
         </div>
 
         {/* Primary Shipped Systems Grid with Mouse-Spotlight Cards */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div ref={gridContainerRef} className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
           {mainProjects.map((project, idx) => {
             const statusInfo = STATUS_CONFIG[project.status] ?? STATUS_CONFIG.PLANNED;
 
@@ -97,7 +132,7 @@ export function ProjectsGrid() {
                   sound.playClick(1000 + idx * 100);
                   setSelectedProject(project);
                 }}
-                className="group flex h-full flex-col justify-between p-6 sm:p-8 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.65)] cursor-pointer"
+                className="project-blueprint-card group flex h-full flex-col justify-between p-6 sm:p-8 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.65)] cursor-pointer"
               >
                 <div>
                   {/* Top Metadata */}

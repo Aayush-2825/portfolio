@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useMotionOK } from "@/lib/motion";
 import { sound } from "@/lib/sound";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import {
   Cpu,
@@ -184,6 +192,33 @@ export function PrinciplesLab() {
   const [activePrinciple, setActivePrinciple] = useState<PrincipleComparison>(COMPARISONS[0]);
   const [viewMode, setViewMode] = useState<"production" | "comparison">("comparison");
   const [mobileTab, setMobileTab] = useState<"tutorial" | "production">("production");
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const motionOK = useMotionOK();
+
+  useGSAP(
+    () => {
+      if (!motionOK || !tabsContainerRef.current) return;
+
+      const tabs = gsap.utils.toArray<HTMLElement>(".principle-blueprint-tab");
+      if (tabs.length === 0) return;
+
+      gsap.from(tabs, {
+        scrollTrigger: {
+          trigger: tabsContainerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        y: 30,
+        opacity: 0,
+        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+        duration: 0.75,
+        stagger: 0.12,
+        ease: "power2.out",
+        clearProps: "clipPath,transform",
+      });
+    },
+    { scope: tabsContainerRef, dependencies: [motionOK] }
+  );
 
   return (
     <section
@@ -220,7 +255,7 @@ export function PrinciplesLab() {
         </div>
 
         {/* Principle Selector Tabs */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div ref={tabsContainerRef} className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {COMPARISONS.map((comp) => {
             const isSelected = activePrinciple.id === comp.id;
 
@@ -233,7 +268,7 @@ export function PrinciplesLab() {
                   setActivePrinciple(comp);
                 }}
                 className={cn(
-                  "flex flex-col justify-between rounded-xl border p-4 text-left transition-all duration-200 active:scale-98",
+                  "principle-blueprint-tab flex flex-col justify-between rounded-xl border p-4 text-left transition-all duration-200 active:scale-98",
                   isSelected
                     ? "border-accent bg-accent/15 text-foreground shadow-lg"
                     : "border-white/[0.08] bg-[#0c0d12] text-muted-foreground hover:border-white/[0.16] hover:text-foreground"

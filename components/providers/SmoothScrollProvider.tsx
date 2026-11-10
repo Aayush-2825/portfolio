@@ -2,9 +2,15 @@
 
 import Lenis from "lenis";
 import { useEffect, type ReactNode } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 // lenis styles embedded in globals.css
 
 import { useMotionOK } from "@/lib/motion";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const motionOK = useMotionOK();
@@ -14,14 +20,26 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    gsap.registerPlugin(ScrollTrigger);
+
     const lenis = new Lenis({
-      autoRaf: true,
+      autoRaf: false, // Let GSAP's central ticker drive RAF for perfect zero-jitter scroll-sync
       syncTouch: false, // Keep native touch scrolling on mobile/tablets so height is never capped
     });
 
     if (typeof window !== "undefined") {
       (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
     }
+
+    // Connect Lenis scroll events to GSAP ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update);
+
+    // Sync Lenis RAF with GSAP's precision ticker
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
 
     // Continuously sync scroll bounds whenever dynamic DOM nodes expand/render
     const resizeObserver = new ResizeObserver(() => {
@@ -72,6 +90,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     document.addEventListener("click", handleAnchorClick);
 
     return () => {
+      gsap.ticker.remove(tickerCallback);
+      lenis.off("scroll", ScrollTrigger.update);
       resizeObserver.disconnect();
       window.removeEventListener("resize", onResize);
       window.removeEventListener("load", onResize);

@@ -71,6 +71,33 @@ class SoundEngine {
     }
   }
 
+  // High-pass harmonic micro-cue on card hover
+  public playHover(freq = 1800, duration = 0.015) {
+    if (!this.enabled) return;
+    const ctx = this.initContext();
+    if (!ctx) return;
+
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.15, ctx.currentTime + duration);
+
+      gain.gain.setValueAtTime(0.012, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch {
+      // AudioContext policy catch
+    }
+  }
+
   // Luminescent packet transmission sound for architecture simulation
   public playPacket(pitch = 540) {
     if (!this.enabled) return;

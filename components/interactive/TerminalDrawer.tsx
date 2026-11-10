@@ -85,6 +85,47 @@ export function TerminalDrawer({
         return;
       }
 
+      if (trimmed === "topology" || trimmed === "3d" || trimmed === "architecture") {
+        onClose();
+        const target = document.getElementById("architecture-topology");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
+      }
+
+      if (trimmed.startsWith("inspect")) {
+        const parts = trimmed.split(/\s+/);
+        const targetSlug = parts[1];
+        if (!targetSlug) {
+          setHistory((prev) => [
+            ...prev,
+            {
+              id: `out-${lineId}`,
+              type: "output",
+              text: [
+                "USAGE: inspect <project>",
+                "Available 3D nodes: dozo, viewproof, pjmb, swabhimaan, blog",
+                "Example: inspect dozo",
+              ].join("\n"),
+            },
+          ]);
+          return;
+        }
+
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("focus-3d-node", { detail: { project: targetSlug } })
+          );
+        }
+        onClose();
+        const target = document.getElementById("architecture-topology");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
+      }
+
       switch (trimmed) {
         case "help":
           setHistory((prev) => [
@@ -94,6 +135,8 @@ export function TerminalDrawer({
               type: "output",
               text: [
                 "AVAILABLE SYSTEM COMMANDS:",
+                "  topology     - Launch 3D architectural node topology view in hero",
+                "  inspect <id> - Focus 3D camera on a specific node (dozo, viewproof, etc.)",
                 "  whoami       - Display developer summary and role credentials",
                 "  projects     - List shipped production platforms and research",
                 "  github       - Show verified public repositories under Aayush-2825",
@@ -159,6 +202,11 @@ export function TerminalDrawer({
           break;
 
         case "dozo":
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("focus-3d-node", { detail: { project: "dozo" } })
+            );
+          }
           setHistory((prev) => [
             ...prev,
             {
@@ -178,6 +226,11 @@ export function TerminalDrawer({
           break;
 
         case "viewproof":
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("focus-3d-node", { detail: { project: "viewproof" } })
+            );
+          }
           setHistory((prev) => [
             ...prev,
             {
@@ -197,6 +250,11 @@ export function TerminalDrawer({
 
         case "pjmb":
         case "auth":
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("focus-3d-node", { detail: { project: "pjmb" } })
+            );
+          }
           setHistory((prev) => [
             ...prev,
             {
@@ -218,6 +276,11 @@ export function TerminalDrawer({
 
         case "swabhimaan":
         case "cms":
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("focus-3d-node", { detail: { project: "swabhimaan" } })
+            );
+          }
           setHistory((prev) => [
             ...prev,
             {
@@ -238,6 +301,11 @@ export function TerminalDrawer({
           break;
 
         case "blog":
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("focus-3d-node", { detail: { project: "blog" } })
+            );
+          }
           setHistory((prev) => [
             ...prev,
             {
@@ -349,6 +417,13 @@ export function TerminalDrawer({
 
   const VALID_COMMANDS = [
     "help",
+    "topology",
+    "inspect",
+    "inspect dozo",
+    "inspect viewproof",
+    "inspect pjmb",
+    "inspect swabhimaan",
+    "inspect blog",
     "whoami",
     "projects",
     "github",
@@ -498,7 +573,7 @@ export function TerminalDrawer({
         {/* Quick Command Suggestions (Touch-friendly for mobile/tablet) */}
         <div className="flex items-center gap-1.5 overflow-x-auto px-4 py-2 border-t border-border/50 bg-[#060608] text-[11px] select-none">
           <span className="text-muted-foreground/60 shrink-0 text-[10px] uppercase tracking-wider">Quick:</span>
-          {["whoami", "projects", "github", "dozo", "viewproof", "pjmb", "swabhimaan", "blog", "stack", "simulate", "contact", "sudo hire", "clear"].map((cmd) => (
+          {["topology", "whoami", "projects", "github", "dozo", "viewproof", "pjmb", "swabhimaan", "blog", "stack", "simulate", "contact", "sudo hire", "clear"].map((cmd) => (
             <button
               key={cmd}
               type="button"

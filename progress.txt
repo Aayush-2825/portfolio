@@ -327,3 +327,29 @@
   - npm run lint: Exited with code 0 (0 errors, 0 warnings).
   - npm run build (next build --webpack): Compiled in 14.5s, all 7 static pages emitted in 1.79s with 0 errors.
 --------------------------------------------------
+
+--------------------------------------------------
+[2026-11-10] - Awwwards-Tier 3D WebGL Blueprint Layer & GSAP Choreography
+- Files Modified / Created:
+  - package.json & package-lock.json (Installed `three`, `@types/three`, `@gsap/react`, `gsap`)
+  - components/providers/SmoothScrollProvider.tsx (Lenis + GSAP Ticker synchronization)
+  - components/interactive/Architectural3DCanvas.tsx (Created Three.js 3D CAD Blueprint Topology scene)
+  - components/sections/Hero.tsx (next/dynamic lazy load for 3D topology canvas + `#architecture-topology`)
+  - components/interactive/SpotlightCard.tsx (Magnetic perspective tilt + sound.playHover)
+  - components/sections/ProjectsGrid.tsx (useGSAP staggered blueprint clip-path reveals)
+  - components/sections/PrinciplesLab.tsx (useGSAP staggered card entrance)
+  - components/interactive/TerminalDrawer.tsx (Registered `topology` & `inspect <project>` commands, auto-focus dispatch)
+  - lib/sound.ts (Synthesized high-pass harmonic modulation `playHover`)
+  - .planning/PORTFOLIO_DESIGN_REPORT.md (Comprehensive design & systems audit)
+- Accomplishments:
+  1. Synchronized Lenis with GSAP Ticker (`autoRaf: false`, `gsap.ticker.add`, `ScrollTrigger.update`, `lagSmoothing(0)`) for jitter-free scroll-driven animations while preserving `data-lenis-prevent` on simulators and terminal.
+  2. Built high-performance, lazy-loaded (`next/dynamic` with `ssr: false`) Three.js WebGL canvas displaying 5 genuine project nodes (`DOZO`, `ViewProof`, `pjmb`, `Swabhimaan-2`, `Engineering Blog`) with CAD wireframe geometry, concentric radar rings, animated bezier data beams, particle satellites, and mouse parallax.
+  3. Pauses WebGL render loop via `IntersectionObserver` when scrolled off-screen to preserve 60fps and GPU memory; provides pure 2D CAD blueprint fallback for `prefers-reduced-motion`.
+  4. Implemented magnetic hover physics on `SpotlightCard.tsx` using Emil Kowalski's `cubic-bezier(0.23, 1, 0.32, 1)` and Web Audio synthesized procedural micro-cues (`sound.playHover()`).
+  5. Implemented GSAP choreography with `@gsap/react` (`useGSAP`) with scoped context cleanup for staggered clip-path reveals across `ProjectsGrid.tsx` and `PrinciplesLab.tsx`.
+  6. Connected `TerminalDrawer.tsx` CLI to the 3D layer: users can execute `topology` or `inspect <project>` (or click the quick command chip) to smoothly scroll to and focus the Three.js camera on that specific project's architecture node.
+- Automated Verification:
+  - npx tsc --noEmit: Passed with code 0 (0 type errors).
+  - npm run lint: Passed with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 5.2s, all 7 static routes generated cleanly.
+--------------------------------------------------
