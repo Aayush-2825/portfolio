@@ -208,13 +208,13 @@ export function PrinciplesLab() {
           start: "top 85%",
           toggleActions: "play none none none",
         },
-        y: 30,
+        y: 25,
         opacity: 0,
-        clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+        scale: 0.985,
         duration: 0.75,
-        stagger: 0.12,
+        stagger: 0.1,
         ease: "power2.out",
-        clearProps: "clipPath,transform",
+        clearProps: "all",
       });
     },
     { scope: tabsContainerRef, dependencies: [motionOK] }

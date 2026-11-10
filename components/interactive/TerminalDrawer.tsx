@@ -135,8 +135,8 @@ export function TerminalDrawer({
               type: "output",
               text: [
                 "AVAILABLE SYSTEM COMMANDS:",
-                "  topology     - Launch 3D architectural node topology view in hero",
-                "  inspect <id> - Focus 3D camera on a specific node (dozo, viewproof, etc.)",
+                "  topology     - Jump to interactive architecture topology explorer in hero",
+                "  inspect <id> - Inspect architecture specs for a project (dozo, viewproof, etc.)",
                 "  whoami       - Display developer summary and role credentials",
                 "  projects     - List shipped production platforms and research",
                 "  github       - Show verified public repositories under Aayush-2825",

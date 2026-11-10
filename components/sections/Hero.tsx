@@ -1,31 +1,12 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import dynamic from "next/dynamic";
 import { KineticName } from "@/components/v2/KineticName";
+import { HeroArchitectureCanvas } from "@/components/sections/HeroArchitectureCanvas";
 import { Magnetic } from "@/components/interactive/Magnetic";
 import { profile } from "@/data/profile";
 import { sound } from "@/lib/sound";
 import { ArrowUpRight, Terminal, Sparkles, Clock, MapPin, GraduationCap, Award } from "lucide-react";
-
-const Architectural3DCanvas = dynamic(
-  () => import("@/components/interactive/Architectural3DCanvas").then((mod) => mod.Architectural3DCanvas),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[380px] w-full max-w-[420px] rounded-2xl border border-white/[0.08] bg-[#08080a] p-4 flex flex-col justify-between font-mono text-xs text-muted-foreground animate-pulse">
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 text-[10px]">
-          <span>INITIALIZING 3D BLUEPRINT TOPOLOGY...</span>
-          <span className="text-accent font-bold">WebGL</span>
-        </div>
-        <div className="h-48 rounded-xl bg-white/[0.02] border border-white/[0.04] flex items-center justify-center">
-          <span className="text-[10px] text-muted-foreground">Loading WebGL Geometry Nodes...</span>
-        </div>
-        <div className="h-10 rounded-lg bg-white/[0.02]" />
-      </div>
-    ),
-  }
-);
 
 const subscribeTime = (callback: () => void) => {
   const interval = setInterval(callback, 1000);
@@ -221,9 +202,9 @@ export function Hero({
             </div>
           </div>
 
-          {/* Right Column: 3D Architectural Topology Canvas */}
+          {/* Right Column: Hero Architecture Topology Explorer */}
           <div id="architecture-topology" className="col-span-12 flex justify-center lg:col-span-4 lg:justify-end w-full">
-            <Architectural3DCanvas />
+            <HeroArchitectureCanvas />
           </div>
         </main>
 

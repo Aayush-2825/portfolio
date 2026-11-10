@@ -23,6 +23,13 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.5,
       autoRaf: false, // Let GSAP's central ticker drive RAF for perfect zero-jitter scroll-sync
       syncTouch: false, // Keep native touch scrolling on mobile/tablets so height is never capped
     });

@@ -353,3 +353,25 @@
   - npm run lint: Passed with code 0 (0 errors, 0 warnings).
   - npm run build (next build --webpack): Compiled in 5.2s, all 7 static routes generated cleanly.
 --------------------------------------------------
+
+--------------------------------------------------
+[2026-11-10] - Polish Spotlight Cards, Restore Grounded Hero Architecture & Build Continuous Page Scroll Transition Narrative
+- Trigger: User feedback requesting elimination of jarring 3D card tilt & chunky 3D objects, and introducing continuous fluid page scroll transitions.
+- Files Modified / Created:
+  - components/interactive/SpotlightCard.tsx (Eliminated 3D perspective tilt & mask clipping; restored razor-sharp typography, smooth cursor spotlight & 2D hover elevation)
+  - components/sections/Hero.tsx (Restored authentic, grounded `HeroArchitectureCanvas` interactive DOZO system topology)
+  - components/interactive/PageScrollNarrative.tsx (Created blueprint vertical scroll progress rail HUD & GSAP ScrollTrigger section-to-section scroll transitions)
+  - components/PortfolioShell.tsx (Mounted PageScrollNarrative)
+  - components/providers/SmoothScrollProvider.tsx (Tuned Lenis smooth scroll momentum physics: duration 1.25, exponential easing, smooth wheel multiplier)
+  - components/sections/ProjectsGrid.tsx & components/sections/PrinciplesLab.tsx (Replaced harsh clipPath slices with silky smooth vertical lift & scale entrance)
+  - components/interactive/TerminalDrawer.tsx (Updated CLI command descriptions)
+- Accomplishments:
+  1. Restored rock-solid, crisp text rendering on `SpotlightCard.tsx` by stripping the 3D perspective transform and replacing it with clean, subtle 2D elevation (`hover:-translate-y-1.5`) and a luminous, artifact-free cursor spotlight.
+  2. Replaced the clunky 3D polyhedrons in the hero with the authentic, grounded `HeroArchitectureCanvas` featuring real-time DOZO packet simulation, latency benchmarks (<16ms, 1.1ms, 0.8ms, 3.2ms), and interactive node inspection.
+  3. Built `PageScrollNarrative.tsx`, introducing an Awwwards-tier vertical blueprint scroll rail with live progress line tracking, active section indicator, audio click feedback, and GSAP ScrollTrigger section-to-section entrance transitions across all 8 major sections.
+  4. Tuned Lenis momentum scrolling physics for a luxurious, fluid scroll feel.
+- Verification:
+  - npx tsc --noEmit: Passed with code 0 (0 type errors).
+  - npm run lint: Passed with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 7.1s, all 7 static pages emitted in 1.8s with 0 errors.
+--------------------------------------------------
