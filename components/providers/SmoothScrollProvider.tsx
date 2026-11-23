@@ -4,12 +4,14 @@ import Lenis from "lenis";
 import { useEffect, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useGSAP } from "@gsap/react";
 // lenis styles embedded in globals.css
 
 import { useMotionOK } from "@/lib/motion";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 }
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {

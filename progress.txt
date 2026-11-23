@@ -431,3 +431,38 @@
   - npm run lint: Passed with code 0 (0 errors, 0 warnings).
   - npm run build (next build --webpack): Compiled in 27.7s, all 7 static pages emitted in 3.1s with 0 errors.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-23] - Site-Wide GSAP ScrollTrigger Choreography & Browser Verification
+- Trigger: User request to implement GSAP animations throughout the website including scroll animations using /gsap-core, /gsap-react, /gsap-plugins, /gsap-timeline, /gsap-scrolltrigger, /goal, /browser, /swarm.
+- Skills Applied & Architectural Patterns:
+  1. `/gsap-scrolltrigger` & `/gsap-react`:
+     - Registered `ScrollTrigger`, `ScrollToPlugin`, and `useGSAP` in `SmoothScrollProvider.tsx` and all section components.
+     - Connected Lenis smooth scrolling with GSAP ScrollTrigger (`lenis.on('scroll', ScrollTrigger.update)`).
+  2. Section-by-Section Choreography:
+     - `DozoShowcase.tsx`: Coordinated entrance timeline sequencing the flagship header items, the pre-incubation credential banner, the 5-node interactive dispatch simulator, and the ADR tabs (`scrollTrigger: { trigger, start: 'top 75%' }`).
+     - `ProjectsGrid.tsx`: Scoped ScrollTrigger for selected works cards (`.project-card-item`) with `clearProps: "all"` and `once: true`. Eliminated any risk of persistent `opacity: 0` so cards are 100% visible and interactive immediately on scroll. Secondary trigger added for research initiatives.
+     - `LayerMatrix.tsx`: Scoped ScrollTrigger for full-stack architecture headers, the 5 system layer tabs ("01" through "05"), and the detail inspector card.
+     - `PrinciplesLab.tsx`: Scoped ScrollTrigger for the "How I Engineer" header, the 4 principle tabs, and the interactive code comparison window.
+     - `Skills.tsx`: Staggered entrance for technology layer rows (`x: -16 -> 0`, `stagger: 0.08`) and micro-stagger for tech chips.
+     - `Education.tsx`: Entrance timeline for academic header, NIT Hamirpur institution card, and competitive honors cards (`.achievement-item`).
+     - `Contact.tsx`: Scroll-triggered reveal for the value proposition and quick message composer form.
+  3. Visual & Functional Browser Verification (`/browser`):
+     - Dispatched browser subagent to `http://localhost:3000`.
+     - Confirmed: 0 console errors, Lenis smooth scrolling without hitching or layout shifts, architectural CAD LogoMark (AR) visible in navbar and footer, and all cards in Selected Works 100% visible, fully opaque, and interactive.
+- Files Modified:
+  - components/providers/SmoothScrollProvider.tsx
+  - components/sections/DozoShowcase.tsx
+  - components/sections/ProjectsGrid.tsx
+  - components/sections/LayerMatrix.tsx
+  - components/sections/PrinciplesLab.tsx
+  - components/sections/Skills.tsx
+  - components/sections/Education.tsx
+  - components/sections/Contact.tsx
+- Automated Verification:
+  - npx tsc --noEmit: Passed with code 0 (0 type errors).
+  - npm run lint: Passed with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 7.0s, all 7 static pages emitted in 2.3s with 0 errors.
+  - Browser inspection: Passed (0 console errors, 100% card visibility verified with screenshots).
+--------------------------------------------------

@@ -1,7 +1,13 @@
 "use client";
 
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { BackgroundGrid, SectionHeader, StaggerReveal } from "@/components/ui/shared";
 import { aiML } from "@/data/skills";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /* ── Compact grouped display ── */
 const compactGroups = [
@@ -32,8 +38,48 @@ const compactGroups = [
 ];
 
 export function Skills() {
+  const skillsRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: skillsRef.current,
+          start: "top 80%",
+          once: true,
+        },
+        defaults: {
+          ease: "power2.out",
+          duration: 0.6,
+        },
+      });
+
+      tl.from(".skill-group-row", {
+        x: -16,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      }).from(
+        ".skill-chip",
+        {
+          scale: 0.94,
+          opacity: 0,
+          stagger: 0.015,
+          duration: 0.35,
+          clearProps: "all",
+        },
+        "-=0.3"
+      );
+    },
+    { scope: skillsRef }
+  );
+
   return (
     <section
+      ref={skillsRef}
       id="skills"
       aria-labelledby="skills-title"
       className="relative overflow-x-clip border-t border-border bg-secondary py-20 sm:py-32"
@@ -58,7 +104,7 @@ export function Skills() {
             {compactGroups.map((group) => (
               <div
                 key={group.label}
-                className="flex flex-col sm:grid sm:grid-cols-[10rem_1fr] gap-2 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5"
+                className="skill-group-row flex flex-col sm:grid sm:grid-cols-[10rem_1fr] gap-2 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5"
               >
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent pt-0.5 shrink-0">
                   {group.label}
@@ -67,7 +113,7 @@ export function Skills() {
                   {group.items.map((item) => (
                     <span
                       key={item}
-                      className="rounded border border-border/70 bg-surface/60 px-2.5 py-1 font-mono text-xs text-foreground/90 transition-colors hover:border-accent/50 hover:text-foreground"
+                      className="skill-chip rounded border border-border/70 bg-surface/60 px-2.5 py-1 font-mono text-xs text-foreground/90 transition-colors hover:border-accent/50 hover:text-foreground"
                     >
                       {item}
                     </span>

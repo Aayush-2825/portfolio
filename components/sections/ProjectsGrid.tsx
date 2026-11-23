@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { sound } from "@/lib/sound";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/types";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
@@ -32,7 +37,60 @@ const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
 };
 
 export function ProjectsGrid() {
+  const projectsRef = useRef<HTMLElement>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: projectsRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".projects-header-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      }).from(
+        ".project-card-item",
+        {
+          y: 24,
+          opacity: 0,
+          stagger: 0.09,
+          duration: 0.65,
+          ease: "power2.out",
+          clearProps: "all",
+        },
+        "-=0.25"
+      );
+
+      gsap.from(".research-card-item", {
+        scrollTrigger: {
+          trigger: ".research-section-container",
+          start: "top 85%",
+          once: true,
+        },
+        y: 20,
+        opacity: 0,
+        stagger: 0.07,
+        duration: 0.55,
+        ease: "power2.out",
+        clearProps: "all",
+      });
+    },
+    { scope: projectsRef }
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -60,6 +118,7 @@ export function ProjectsGrid() {
 
   return (
     <section
+      ref={projectsRef}
       id="projects"
       aria-labelledby="projects-title"
       className="relative overflow-hidden border-t border-border bg-background py-24 sm:py-32"
@@ -67,19 +126,19 @@ export function ProjectsGrid() {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
         {/* Section Heading */}
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+          <div className="projects-header-item inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
             <FolderGit2 size={12} />
             <span>Production & Research Index</span>
           </div>
 
           <h2
             id="projects-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
+            className="projects-header-item mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
             Selected <span className="text-muted-foreground font-normal">Works</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed text-balance">
+          <p className="projects-header-item mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed text-balance">
             Production-oriented platforms, backend engines, and systems exploration. Click any project card to open its architectural inspection dossier.
           </p>
         </div>
@@ -97,7 +156,7 @@ export function ProjectsGrid() {
                   sound.playClick(1000 + idx * 100);
                   setSelectedProject(project);
                 }}
-                className="group flex h-full flex-col justify-between p-6 sm:p-8 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.65)] cursor-pointer"
+                className="project-card-item group flex h-full flex-col justify-between p-6 sm:p-8 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.65)] cursor-pointer"
               >
                 <div>
                   {/* Top Metadata */}
@@ -177,7 +236,7 @@ export function ProjectsGrid() {
         </div>
 
         {/* Secondary: Research & Systems Exploration with Mobile Snap Carousel */}
-        <div className="mt-16">
+        <div className="research-section-container mt-16">
           <div className="border-b border-border/60 pb-3 flex items-center justify-between">
             <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
               Systems Explorations & AI Research
@@ -197,7 +256,7 @@ export function ProjectsGrid() {
                   sound.playClick(1300, 0.01);
                   setSelectedProject(rp);
                 }}
-                className="group min-w-[280px] sm:min-w-0 snap-start flex-1 rounded-xl border border-border/70 bg-surface/60 p-5 transition-all hover:border-accent/50 hover:bg-surface cursor-pointer flex flex-col justify-between"
+                className="research-card-item group min-w-[280px] sm:min-w-0 snap-start flex-1 rounded-xl border border-border/70 bg-surface/60 p-5 transition-all hover:border-accent/50 hover:bg-surface cursor-pointer flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between">

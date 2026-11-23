@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { sound } from "@/lib/sound";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 import { profile } from "@/data/profile";
 import {
   Mail,
@@ -16,9 +21,47 @@ import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import { Magnetic } from "@/components/interactive/Magnetic";
 
 export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean }) {
+  const contactRef = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: contactRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".contact-container", {
+        y: 28,
+        opacity: 0,
+        scale: 0.98,
+        clearProps: "all",
+      }).from(
+        ".contact-col",
+        {
+          y: 20,
+          opacity: 0,
+          stagger: 0.12,
+          duration: 0.6,
+          clearProps: "all",
+        },
+        "-=0.3"
+      );
+    },
+    { scope: contactRef }
+  );
 
   const email = profile.links.email || "aayush.ardy@gmail.com";
 
@@ -41,6 +84,7 @@ export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean
 
   return (
     <section
+      ref={contactRef}
       id="contact"
       aria-labelledby="contact-title"
       className="relative overflow-hidden border-t border-border bg-background py-24 sm:py-32"
@@ -52,11 +96,11 @@ export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
-        <div className="relative rounded-3xl border border-border/80 bg-surface/90 p-8 sm:p-12 shadow-2xl backdrop-blur-md">
+        <div className="contact-container relative rounded-3xl border border-border/80 bg-surface/90 p-8 sm:p-12 shadow-2xl backdrop-blur-md">
           <CornerCrosshairs />
           <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
             {/* Left: Pitch & Value Proposition */}
-            <div className="lg:col-span-6 space-y-6">
+            <div className="contact-col lg:col-span-6 space-y-6">
               <div className="flex items-center gap-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
                   Get in Touch
@@ -161,7 +205,7 @@ export function Contact({ resumeAvailable = false }: { resumeAvailable?: boolean
             </div>
 
             {/* Right: Quick Direct Composer */}
-            <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-xl">
+            <div className="contact-col lg:col-span-6 rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-xl">
               <div className="flex items-center justify-between border-b border-border/60 pb-3">
                 <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
                   Quick Message Composer

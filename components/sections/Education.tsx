@@ -1,10 +1,67 @@
 "use client";
 
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { GraduationCap, Calendar } from "lucide-react";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import { profile } from "@/data/profile";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export function Education() {
+  const educationRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: educationRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".education-header-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      })
+        .from(
+          ".education-card",
+          {
+            y: 24,
+            opacity: 0,
+            duration: 0.7,
+            clearProps: "all",
+          },
+          "-=0.25"
+        )
+        .from(
+          ".achievement-item",
+          {
+            y: 18,
+            opacity: 0,
+            stagger: 0.08,
+            duration: 0.55,
+            ease: "power2.out",
+            clearProps: "all",
+          },
+          "-=0.2"
+        );
+    },
+    { scope: educationRef }
+  );
+
   const achievements = [
     {
       title: "NIT Hamirpur Pre-Incubation Program",
@@ -30,6 +87,7 @@ export function Education() {
 
   return (
     <section
+      ref={educationRef}
       id="education"
       aria-labelledby="education-title"
       className="relative overflow-hidden border-t border-border bg-[#090a0d] py-24 sm:py-32"
@@ -37,25 +95,25 @@ export function Education() {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
         {/* Section Header */}
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+          <div className="education-header-item inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
             <GraduationCap size={12} />
             <span>Academic Rigor & Credentials</span>
           </div>
 
           <h2
             id="education-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground"
+            className="education-header-item mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground"
           >
             Education <span className="text-muted-foreground font-normal">& Honors</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed">
+          <p className="education-header-item mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed">
             The computer science foundations, algorithm coursework, and competitive honors behind the software systems.
           </p>
         </div>
 
         {/* Institution Highlight Card */}
-        <div className="relative mt-14 rounded-2xl border border-border/80 bg-surface/90 shadow-2xl backdrop-blur-md">
+        <div className="education-card relative mt-14 rounded-2xl border border-border/80 bg-surface/90 shadow-2xl backdrop-blur-md">
           <CornerCrosshairs />
           {/* Top banner */}
           <div className="flex flex-col gap-6 border-b border-border/60 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
@@ -150,7 +208,7 @@ export function Education() {
               {achievements.map((ach) => (
                 <div
                   key={ach.title}
-                  className="rounded-xl border border-border/70 bg-background/80 p-4 transition-all hover:border-accent/40"
+                  className="achievement-item rounded-xl border border-border/70 bg-background/80 p-4 transition-all hover:border-accent/40"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-heading text-sm font-semibold text-foreground">

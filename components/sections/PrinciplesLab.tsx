@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { sound } from "@/lib/sound";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import {
   Cpu,
@@ -181,12 +186,63 @@ await db.transaction(async (tx) => {
 ];
 
 export function PrinciplesLab() {
+  const principlesRef = useRef<HTMLElement>(null);
   const [activePrinciple, setActivePrinciple] = useState<PrincipleComparison>(COMPARISONS[0]);
   const [viewMode, setViewMode] = useState<"production" | "comparison">("comparison");
   const [mobileTab, setMobileTab] = useState<"tutorial" | "production">("production");
 
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: principlesRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".principles-header-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      })
+        .from(
+          ".principle-blueprint-tab",
+          {
+            y: 18,
+            opacity: 0,
+            stagger: 0.07,
+            duration: 0.6,
+            ease: "power2.out",
+            clearProps: "all",
+          },
+          "-=0.25"
+        )
+        .from(
+          ".principles-code-card",
+          {
+            y: 24,
+            opacity: 0,
+            duration: 0.65,
+            clearProps: "all",
+          },
+          "-=0.2"
+        );
+    },
+    { scope: principlesRef }
+  );
+
   return (
     <section
+      ref={principlesRef}
       id="principles"
       aria-labelledby="principles-title"
       className="relative overflow-hidden border-t border-border bg-[#090a0d] py-24 sm:py-32"
@@ -199,14 +255,14 @@ export function PrinciplesLab() {
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
         {/* Section Header */}
         <div className="max-w-5xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+          <div className="principles-header-item inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
             <Cpu size={12} />
             <span>Engineering Principles & Code Rigor</span>
           </div>
 
           <h2
             id="principles-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
+            className="principles-header-item mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
             <span>How I Engineer</span>{" "}
             <span className="text-muted-foreground font-normal">
@@ -214,7 +270,7 @@ export function PrinciplesLab() {
             </span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed max-w-3xl">
+          <p className="principles-header-item mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed max-w-3xl">
             The difference between superficial tutorial code and production resilience. Select a principle to compare how I approach architecture, concurrency, and security.
           </p>
         </div>
@@ -267,7 +323,7 @@ export function PrinciplesLab() {
         </div>
 
         {/* Interactive Comparison Window with Mouse-Spotlight */}
-        <SpotlightCard className="mt-8 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+        <SpotlightCard className="principles-code-card mt-8 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
             <div>
               <span className="font-mono text-xs text-accent font-semibold">

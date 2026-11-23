@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { sound } from "@/lib/sound";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import { GithubIcon } from "@/components/ui/icons";
@@ -188,6 +193,7 @@ function DozoDataFlowMap({ activeStep, isSimulating }: { activeStep: number; isS
 }
 
 export function DozoShowcase() {
+  const dozoRef = useRef<HTMLElement>(null);
   const [selectedService, setSelectedService] = useState<ServiceType>(SERVICES[0]);
   const [state, setState] = useState<DispatchState>("IDLE");
   const [simulationStep, setSimulationStep] = useState<number>(-1);
@@ -197,6 +203,54 @@ export function DozoShowcase() {
   const [logs, setLogs] = useState<string[]>([
     "[SYS] Dispatch Engine initialized. Waiting for booking trigger...",
   ]);
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: dozoRef.current,
+          start: "top 75%",
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".dozo-header-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      })
+        .from(
+          ".dozo-banner",
+          {
+            y: 20,
+            opacity: 0,
+            scale: 0.98,
+            duration: 0.65,
+            clearProps: "all",
+          },
+          "-=0.25"
+        )
+        .from(
+          ".dozo-content-column",
+          {
+            y: 28,
+            opacity: 0,
+            stagger: 0.12,
+            duration: 0.7,
+            clearProps: "all",
+          },
+          "-=0.2"
+        );
+    },
+    { scope: dozoRef }
+  );
 
   const addLog = (msg: string) => {
     setLogs((prev) => [...prev.slice(-3), msg]);
@@ -271,6 +325,7 @@ export function DozoShowcase() {
 
   return (
     <section
+      ref={dozoRef}
       id="dozo-case-study"
       aria-labelledby="dozo-title"
       className="relative overflow-hidden border-t border-white/[0.08] bg-[#070709] py-20 sm:py-32"
@@ -284,26 +339,26 @@ export function DozoShowcase() {
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12">
         {/* Section Header */}
         <div className="max-w-5xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+          <div className="dozo-header-item inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
             <Sparkles size={12} />
             <span>Flagship Case Study · NIT Hamirpur Pre-Incubation</span>
           </div>
 
           <h2
             id="dozo-title"
-            className="mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
+            className="dozo-header-item mt-4 font-heading text-4xl sm:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
             <span>DOZO <span className="text-muted-foreground font-normal">·</span></span>{" "}
             <span className="text-muted-foreground font-normal">Real-Time Platform</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed max-w-3xl">
+          <p className="dozo-header-item mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed max-w-3xl">
             An on-demand local domestic services marketplace solving pricing uncertainty, helper KYC verification, and live dispatch tracking across 20+ service categories with a Fastify 5, Drizzle ORM, and WebSocket backend.
           </p>
         </div>
 
         {/* Startup Credential Banner with Direct Links */}
-        <div className="relative mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/[0.1] bg-[#0c0d12]/90 p-4 sm:p-5 backdrop-blur-md">
+        <div className="dozo-banner relative mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/[0.1] bg-[#0c0d12]/90 p-4 sm:p-5 backdrop-blur-md">
           <CornerCrosshairs />
           <div className="flex items-center gap-3 min-w-[240px]">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent border border-accent/30">
@@ -353,7 +408,8 @@ export function DozoShowcase() {
         {/* Main Grid: Left Simulator / Right Architecture Decisions */}
         <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
           {/* Left: Interactive Real-Time Dispatch Simulator with State Machine */}
-          <SpotlightCard data-cursor="SIMULATE" className="col-span-12 lg:col-span-6 p-5 sm:p-6 shadow-2xl backdrop-blur-md">
+          <div className="dozo-content-column col-span-12 lg:col-span-6">
+            <SpotlightCard data-cursor="SIMULATE" className="p-5 sm:p-6 shadow-2xl backdrop-blur-md">
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
               <div className="flex items-center gap-2">
                 <Workflow size={16} className="text-accent" />
@@ -527,9 +583,10 @@ export function DozoShowcase() {
               )}
             </div>
           </SpotlightCard>
+        </div>
 
-          {/* Right: Architectural Trade-Offs & Decisions */}
-          <div className="col-span-12 lg:col-span-6 space-y-6">
+        {/* Right: Architectural Trade-Offs & Decisions */}
+        <div className="dozo-content-column col-span-12 lg:col-span-6 space-y-6">
             <SpotlightCard className="p-5 sm:p-6 shadow-xl backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
                 <div className="flex items-center gap-2">

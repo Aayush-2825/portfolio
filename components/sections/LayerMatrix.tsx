@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { sound } from "@/lib/sound";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 import { SpotlightCard } from "@/components/interactive/SpotlightCard";
 import { CornerCrosshairs } from "@/components/ui/CornerCrosshairs";
 import {
@@ -142,10 +147,61 @@ if (tokenRecord.isRevoked) {
 ];
 
 export function LayerMatrix() {
+  const layerMatrixRef = useRef<HTMLElement>(null);
   const [selectedLayer, setSelectedLayer] = useState<SystemLayer>(SYSTEM_LAYERS[0]);
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: layerMatrixRef.current,
+          start: "top 75%",
+          once: true,
+        },
+        defaults: {
+          ease: "power3.out",
+          duration: 0.65,
+        },
+      });
+
+      tl.from(".layer-header-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        clearProps: "all",
+      })
+        .from(
+          ".layer-tab-button",
+          {
+            y: 18,
+            opacity: 0,
+            stagger: 0.07,
+            duration: 0.6,
+            ease: "power2.out",
+            clearProps: "all",
+          },
+          "-=0.25"
+        )
+        .from(
+          ".layer-detail-card",
+          {
+            y: 22,
+            opacity: 0,
+            duration: 0.65,
+            clearProps: "all",
+          },
+          "-=0.2"
+        );
+    },
+    { scope: layerMatrixRef }
+  );
 
   return (
     <section
+      ref={layerMatrixRef}
       id="layer-map"
       aria-labelledby="layer-matrix-title"
       className="relative overflow-hidden border-t border-border bg-background py-20 sm:py-32 w-full max-w-full"
@@ -158,20 +214,20 @@ export function LayerMatrix() {
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 min-w-0">
         {/* Section Heading */}
         <div className="max-w-5xl min-w-0">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
+          <div className="layer-header-item inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/70 px-3.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent font-semibold">
             <Layers size={12} />
             <span>Architecture Layer Map</span>
           </div>
 
           <h2
             id="layer-matrix-title"
-            className="mt-4 font-heading text-3xl sm:text-5xl lg:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
+            className="layer-header-item mt-4 font-heading text-3xl sm:text-5xl lg:text-6xl font-semibold uppercase tracking-[-0.03em] text-foreground text-balance"
           >
             <span>Full-Stack</span>{" "}
             <span className="text-muted-foreground font-normal">Systems Matrix</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed break-words max-w-3xl">
+          <p className="layer-header-item mt-4 text-base sm:text-lg text-foreground/80 leading-relaxed break-words max-w-3xl">
             How I architect software from client runtime through transport, database concurrency, and distributed identity. Select any layer to inspect production patterns.
           </p>
         </div>
@@ -190,7 +246,7 @@ export function LayerMatrix() {
                   setSelectedLayer(layer);
                 }}
                 className={cn(
-                  "flex flex-col justify-between rounded-xl border p-4 text-left transition-all duration-200 active:scale-98 w-full min-w-0",
+                  "layer-tab-button flex flex-col justify-between rounded-xl border p-4 text-left transition-all duration-200 active:scale-98 w-full min-w-0",
                   isSelected
                     ? "border-accent bg-accent/15 text-foreground shadow-lg"
                     : "border-white/[0.08] bg-[#0c0d12] text-muted-foreground hover:border-white/[0.16] hover:text-foreground"
@@ -221,7 +277,7 @@ export function LayerMatrix() {
         </div>
 
         {/* Selected Layer Detail Inspector with Mouse-Spotlight */}
-        <SpotlightCard className="relative mt-8 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md w-full min-w-0 max-w-full overflow-hidden">
+        <SpotlightCard className="layer-detail-card relative mt-8 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md w-full min-w-0 max-w-full overflow-hidden">
           <CornerCrosshairs />
           <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:items-start w-full min-w-0 max-w-full">
             {/* Left: Role, Principles, and Linked Projects */}
