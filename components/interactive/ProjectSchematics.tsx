@@ -25,6 +25,7 @@ export function ProjectSchematic({ slug }: SchematicProps) {
 /**
  * 1. DOZO: 1-to-Many WebSocket Fan-Out Mesh
  * Topology: [Client App] -> [Fastify / Zod / Redis] -> Fan-out to 3 WSS Helper Nodes + Razorpay
+ * Uses SVG <animateMotion> for continuous 60fps data packet dispatching
  */
 function DozoSchematic() {
   return (
@@ -40,6 +41,30 @@ function DozoSchematic() {
             <stop offset="0%" stopColor="#ff4d1f" stopOpacity="0.9" />
             <stop offset="100%" stopColor="#ff8c42" stopOpacity="0.5" />
           </linearGradient>
+
+          {/* Animated Sheen Sweep */}
+          <linearGradient id="dozo-sheen" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff4d1f" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#ffffff" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#ff4d1f" stopOpacity="0.2" />
+            <animateTransform
+              attributeName="gradientTransform"
+              type="translate"
+              from="-1 0"
+              to="1 0"
+              dur="2.8s"
+              repeatCount="indefinite"
+            />
+          </linearGradient>
+
+          {/* Subtle Glow Filter */}
+          <filter id="svg-node-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1.2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
         {/* 1. Client App (Left) */}
@@ -57,13 +82,30 @@ function DozoSchematic() {
         <text x="133" y="68" fill="#a78bfa" fontSize="5.5" fontFamily="monospace">Postgres SERIALIZABLE</text>
         <text x="133" y="78" fill="#10b981" fontSize="5.5" fontFamily="monospace">Concurrency Mutex Lock</text>
 
-        {/* Fan-Out Radiating Connector Curves */}
+        {/* Pipeline 1: Client to Fastify Gateway */}
         <path d="M 95 55 L 125 55" stroke="url(#dozo-grad)" strokeWidth="1.5" />
-        <circle cx="110" cy="55" r="2.5" fill="#ff4d1f" className="animate-pulse" />
+        <circle r="2" fill="#ffffff" filter="url(#svg-node-glow)">
+          <animateMotion dur="1.2s" repeatCount="indefinite" path="M 95 55 L 125 55" />
+        </circle>
 
-        <path d="M 240 45 C 255 45, 255 24, 270 24" stroke="#ff4d1f" strokeWidth="1.2" strokeDasharray="3 2" />
-        <path d="M 240 55 L 270 55" stroke="#38bdf8" strokeWidth="1.5" />
-        <path d="M 240 65 C 255 65, 255 86, 270 86" stroke="#10b981" strokeWidth="1.2" strokeDasharray="3 2" />
+        {/* Fan-Out Radiating Connector Curves */}
+        {/* Top Path: Helper 01 */}
+        <path d="M 240 45 C 255 45, 255 24, 270 24" stroke="rgba(255, 77, 31, 0.45)" strokeWidth="1.2" strokeDasharray="3 2" />
+        <circle r="2" fill="#ff4d1f" filter="url(#svg-node-glow)">
+          <animateMotion dur="2.2s" repeatCount="indefinite" path="M 240 45 C 255 45, 255 24, 270 24" />
+        </circle>
+
+        {/* Middle Path: Helper 02 */}
+        <path d="M 240 55 L 270 55" stroke="#38bdf8" strokeWidth="1.5" strokeOpacity="0.6" />
+        <circle r="2" fill="#38bdf8" filter="url(#svg-node-glow)">
+          <animateMotion dur="1.8s" repeatCount="indefinite" path="M 240 55 L 270 55" />
+        </circle>
+
+        {/* Bottom Path: Razorpay */}
+        <path d="M 240 65 C 255 65, 255 86, 270 86" stroke="rgba(16, 185, 129, 0.45)" strokeWidth="1.2" strokeDasharray="3 2" />
+        <circle r="2" fill="#10b981" filter="url(#svg-node-glow)">
+          <animateMotion dur="2.6s" repeatCount="indefinite" path="M 240 65 C 255 65, 255 86, 270 86" />
+        </circle>
 
         {/* 3. Fan-out Subscriber Nodes (Right) */}
         {/* Helper 1 */}
@@ -98,6 +140,16 @@ function ViewProofSchematic() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <defs>
+          <filter id="vp-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Left Source: Photographer Upload */}
         <rect x="10" y="28" width="90" height="54" rx="6" stroke="rgba(96, 165, 250, 0.35)" strokeWidth="1" fill="rgba(96, 165, 250, 0.03)" />
         <text x="18" y="44" fill="#60a5fa" fontSize="7" fontFamily="monospace" fontWeight="700">PHOTOGRAPHER</text>
@@ -106,11 +158,15 @@ function ViewProofSchematic() {
         <text x="18" y="74" fill="#60a5fa" fontSize="5.5" fontFamily="monospace">Auth Session</text>
 
         {/* Branching Connectors from Left to Dual-Pipeline */}
-        <path d="M 100 45 C 115 45, 115 28, 130 28" stroke="#60a5fa" strokeWidth="1.5" />
-        <circle cx="115" cy="36" r="2" fill="#60a5fa" />
+        <path d="M 100 45 C 115 45, 115 28, 130 28" stroke="rgba(96, 165, 250, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#60a5fa" filter="url(#vp-glow)">
+          <animateMotion dur="2s" repeatCount="indefinite" path="M 100 45 C 115 45, 115 28, 130 28" />
+        </circle>
 
-        <path d="M 100 65 C 115 65, 115 82, 130 82" stroke="#fbbf24" strokeWidth="1.5" />
-        <circle cx="115" cy="74" r="2" fill="#fbbf24" />
+        <path d="M 100 65 C 115 65, 115 82, 130 82" stroke="rgba(251, 191, 36, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#fbbf24" filter="url(#vp-glow)">
+          <animateMotion dur="2.4s" repeatCount="indefinite" path="M 100 65 C 115 65, 115 82, 130 82" />
+        </circle>
 
         {/* Upper Pipeline: Cloudinary CDN Transform */}
         <rect x="130" y="10" width="135" height="38" rx="5" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" fill="rgba(255, 255, 255, 0.02)" />
@@ -125,8 +181,15 @@ function ViewProofSchematic() {
         <text x="138" y="94" fill="#fbbf24" fontSize="5.5" fontFamily="monospace">Comment Threads (12ms)</text>
 
         {/* Reconvergence Connectors into Client Lock */}
-        <path d="M 265 28 C 280 28, 280 45, 295 45" stroke="#38bdf8" strokeWidth="1.5" />
-        <path d="M 265 82 C 280 82, 280 65, 295 65" stroke="#fbbf24" strokeWidth="1.5" />
+        <path d="M 265 28 C 280 28, 280 45, 295 45" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#38bdf8" filter="url(#vp-glow)">
+          <animateMotion dur="2.1s" repeatCount="indefinite" path="M 265 28 C 280 28, 280 45, 295 45" />
+        </circle>
+
+        <path d="M 265 82 C 280 82, 280 65, 295 65" stroke="rgba(251, 191, 36, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#fbbf24" filter="url(#vp-glow)">
+          <animateMotion dur="2.5s" repeatCount="indefinite" path="M 265 82 C 280 82, 280 65, 295 65" />
+        </circle>
 
         {/* Right Node: Client Approval Lock */}
         <rect x="295" y="28" width="95" height="54" rx="6" stroke="rgba(16, 185, 129, 0.4)" strokeWidth="1" fill="rgba(16, 185, 129, 0.04)" />
@@ -152,6 +215,16 @@ function SwabhimaanSchematic() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <defs>
+          <filter id="sw-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Left Spoke: Next.js 15 Edge */}
         <rect x="10" y="28" width="95" height="54" rx="6" stroke="rgba(56, 189, 248, 0.35)" strokeWidth="1" fill="rgba(56, 189, 248, 0.03)" />
         <text x="18" y="44" fill="#38bdf8" fontSize="7" fontFamily="monospace" fontWeight="700">NEXT.JS 15 EDGE</text>
@@ -160,8 +233,10 @@ function SwabhimaanSchematic() {
         <text x="18" y="74" fill="#38bdf8" fontSize="5.5" fontFamily="monospace">TTFB &lt; 35ms</text>
 
         {/* Bidirectional Spoke Connector Left */}
-        <path d="M 105 55 L 135 55" stroke="#38bdf8" strokeWidth="1.5" />
-        <circle cx="120" cy="55" r="2.5" fill="#38bdf8" />
+        <path d="M 105 55 L 135 55" stroke="#38bdf8" strokeWidth="1.5" strokeOpacity="0.6" />
+        <circle r="2" fill="#38bdf8" filter="url(#sw-glow)">
+          <animateMotion dur="1.5s" repeatCount="indefinite" path="M 135 55 L 105 55" />
+        </circle>
 
         {/* Central Core Hub: Payload Headless CMS */}
         <rect x="135" y="22" width="125" height="66" rx="8" stroke="rgba(245, 158, 11, 0.4)" strokeWidth="1.2" fill="rgba(245, 158, 11, 0.04)" />
@@ -169,14 +244,18 @@ function SwabhimaanSchematic() {
         <text x="143" y="50" fill="rgba(255,255,255,0.8)" fontSize="6" fontFamily="monospace">Editorial Schema Engine</text>
         <text x="143" y="60" fill="rgba(255,255,255,0.5)" fontSize="5.5" fontFamily="monospace">Zod Typed Contracts</text>
         <text x="143" y="70" fill="#fbbf24" fontSize="5.5" fontFamily="monospace">Periodicals · Media · Forms</text>
-        <text x="143" y="80" fill="rgba(255,255,255,0.4)" fontSize="5" fontFamily="monospace">Central Orchestrator</text>
+        <text x="143" y="80" fill="rgba(255,255,255,0.4)" fontSize="5.5" fontFamily="monospace">Central Orchestrator</text>
 
         {/* Spokes Radiating Right */}
-        <path d="M 260 45 L 285 28" stroke="#ff4d1f" strokeWidth="1.5" />
-        <circle cx="272" cy="36" r="2" fill="#ff4d1f" />
+        <path d="M 260 45 L 285 28" stroke="rgba(255, 77, 31, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#ff4d1f" filter="url(#sw-glow)">
+          <animateMotion dur="1.9s" repeatCount="indefinite" path="M 260 45 L 285 28" />
+        </circle>
 
-        <path d="M 260 65 L 285 82" stroke="#10b981" strokeWidth="1.5" />
-        <circle cx="272" cy="74" r="2" fill="#10b981" />
+        <path d="M 260 65 L 285 82" stroke="rgba(16, 185, 129, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#10b981" filter="url(#sw-glow)">
+          <animateMotion dur="2.1s" repeatCount="indefinite" path="M 260 65 L 285 82" />
+        </circle>
 
         {/* Top-Right Spoke: Cloudflare R2 */}
         <rect x="285" y="10" width="105" height="38" rx="5" stroke="rgba(255, 77, 31, 0.3)" strokeWidth="1" fill="rgba(255, 77, 31, 0.03)" />
@@ -207,6 +286,16 @@ function AuthBackendSchematic() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <defs>
+          <filter id="auth-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Left Node: Client Request */}
         <rect x="10" y="28" width="85" height="54" rx="6" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" fill="rgba(255, 255, 255, 0.02)" />
         <text x="18" y="44" fill="rgba(255,255,255,0.95)" fontSize="7" fontFamily="monospace" fontWeight="700">CLIENT REQUEST</text>
@@ -216,7 +305,9 @@ function AuthBackendSchematic() {
 
         {/* Connector from Client to Gate */}
         <path d="M 95 55 L 115 55" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
-        <circle cx="105" cy="55" r="2" fill="#38bdf8" />
+        <circle r="2" fill="#38bdf8" filter="url(#auth-glow)">
+          <animateMotion dur="1.4s" repeatCount="indefinite" path="M 95 55 L 115 55" />
+        </circle>
 
         {/* Center Node: OAuth 2.0 & 2FA Gate */}
         <rect x="115" y="28" width="95" height="54" rx="6" stroke="rgba(192, 132, 252, 0.35)" strokeWidth="1" fill="rgba(192, 132, 252, 0.03)" />
@@ -226,8 +317,15 @@ function AuthBackendSchematic() {
         <text x="123" y="74" fill="#c084fc" fontSize="5.5" fontFamily="monospace">Passport.js Strategy</text>
 
         {/* Connectors from Gate to Cyclic Ring */}
-        <path d="M 210 45 C 225 45, 225 28, 240 28" stroke="#c084fc" strokeWidth="1.5" />
-        <path d="M 210 65 C 225 65, 225 82, 240 82" stroke="#ff4d1f" strokeWidth="1.5" />
+        <path d="M 210 45 C 225 45, 225 28, 240 28" stroke="rgba(192, 132, 252, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#c084fc" filter="url(#auth-glow)">
+          <animateMotion dur="1.8s" repeatCount="indefinite" path="M 210 45 C 225 45, 225 28, 240 28" />
+        </circle>
+
+        <path d="M 210 65 C 225 65, 225 82, 240 82" stroke="rgba(255, 77, 31, 0.5)" strokeWidth="1.5" />
+        <circle r="2" fill="#ff4d1f" filter="url(#auth-glow)">
+          <animateMotion dur="2.2s" repeatCount="indefinite" path="M 210 65 C 225 65, 225 82, 240 82" />
+        </circle>
 
         {/* Right Ring: Node 1 (Upper) - Access JWT */}
         <rect x="240" y="10" width="130" height="38" rx="5" stroke="rgba(56, 189, 248, 0.3)" strokeWidth="1" fill="rgba(56, 189, 248, 0.03)" />
@@ -241,14 +339,20 @@ function AuthBackendSchematic() {
         <text x="248" y="86" fill="rgba(255,255,255,0.6)" fontSize="5.8" fontFamily="monospace">Argon2id Hash · MongoDB</text>
         <text x="248" y="94" fill="#10b981" fontSize="5.5" fontFamily="monospace">Reuse Invalidation Alert</text>
 
-        {/* Cyclic Renewal Arrows between Access and Refresh */}
+        {/* Cyclic Renewal Flow (Continuous Rotating Loop) */}
         {/* Downward spend line */}
         <path d="M 370 28 C 388 28, 388 82, 370 82" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 2" />
         <polygon points="370,82 376,79 376,85" fill="#10b981" />
+        <circle r="2" fill="#10b981" filter="url(#auth-glow)">
+          <animateMotion dur="2.4s" repeatCount="indefinite" path="M 370 28 C 388 28, 388 82, 370 82" />
+        </circle>
 
         {/* Upward renew line */}
         <path d="M 240 82 C 224 82, 224 28, 240 28" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3 2" />
         <polygon points="240,28 234,31 234,25" fill="#38bdf8" />
+        <circle r="2" fill="#38bdf8" filter="url(#auth-glow)">
+          <animateMotion dur="2.4s" repeatCount="indefinite" path="M 240 82 C 224 82, 224 28, 240 28" />
+        </circle>
       </svg>
     </div>
   );

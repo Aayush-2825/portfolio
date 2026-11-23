@@ -1,5 +1,7 @@
 "use client";
 
+import { LogoMark } from "@/components/interactive/LogoMark";
+import { LottieStatusIndicator } from "@/components/interactive/LottieStatusIndicator";
 import { profile } from "@/data/profile";
 import { sound } from "@/lib/sound";
 import { ArrowUp, Terminal } from "lucide-react";
@@ -21,7 +23,7 @@ export function Footer({
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 sm:px-8 lg:px-12">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/50 pb-6">
           <div className="flex items-center gap-3">
-            <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+            <LogoMark size={24} />
             <span className="text-foreground font-semibold">
               {profile.name}
             </span>
@@ -47,6 +49,11 @@ export function Footer({
             <span>© {year} Aayush Raj. All rights reserved.</span>
             <span>·</span>
             <span>NIT Hamirpur, India</span>
+            <span>·</span>
+            <div className="inline-flex items-center gap-1.5 text-emerald-400">
+              <LottieStatusIndicator size={12} label="Systems nominal" />
+              <span>Telemetry Nominal</span>
+            </div>
             <span>·</span>
             <button
               type="button"

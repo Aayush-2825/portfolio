@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { SoundToggle } from "@/components/interactive/SoundToggle";
 import { CommandPalette } from "@/components/interactive/CommandPalette";
+import { LogoMark } from "@/components/interactive/LogoMark";
 import { profile } from "@/data/profile";
 import { sound } from "@/lib/sound";
 import { cn } from "@/lib/utils";
@@ -110,7 +111,7 @@ export function Nav({
       />
 
       <div className="mx-auto flex h-14 w-full items-center justify-between px-3.5 sm:px-6">
-        {/* Brand Home Link */}
+        {/* Brand Home Link with Animated Architectural Monogram Logo */}
         <a
           href="#top"
           data-cursor="TOP"
@@ -118,7 +119,7 @@ export function Nav({
           className="group flex items-center gap-2.5 font-heading text-base sm:text-lg uppercase tracking-[-0.03em] text-foreground transition-all hover:text-accent"
           aria-label="Aayush Raj Home"
         >
-          <span className="h-2 w-2 rounded-full bg-accent transition-transform duration-300 group-hover:scale-150 shadow-[0_0_8px_var(--accent)]" />
+          <LogoMark size={28} />
           <span className="font-semibold">Aayush Raj</span>
         </a>
 

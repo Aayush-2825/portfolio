@@ -392,3 +392,42 @@
   - npm run lint: Passed with code 0 (0 errors, 0 warnings).
   - npm run build (next build --webpack): Compiled in 6.6s, all 7 static pages emitted in 1.5s with 0 errors.
 --------------------------------------------------
+
+
+--------------------------------------------------
+[2026-11-23] - Master Animation Upgrade: SVG Logo, Kinetic Typography, SVG Schematics, DotLottie & GSAP Choreography
+- Trigger: User request to enhance portfolio with /svg-animation, /lottie-animation, /logo-animation, /gsap-react, /gsap-timeline, /gsap-core, /motion-art-direction, /kinetic-typography, /swarm, /goal.
+- Skills Applied & Architectural Patterns:
+  1. `/logo-animation` & `/svg-animation`:
+     - Created `components/interactive/LogoMark.tsx`: An architectural CAD hexagon monogram ("AR") featuring precision crosshair guide marks, stroke draw-on (`pathLength={1}` and keyframe animation), vermillion luminous gradients, and interactive hover micro-tilt with synthesized audio cues. Integrated into both `Nav.tsx` and `Footer.tsx`.
+     - In `app/globals.css`, authored `@keyframes logo-stroke-draw` and `@keyframes logo-frame-draw` using `stroke-dasharray: 1` and `stroke-dashoffset: 0` for butter-smooth SVG line reveals.
+  2. `/kinetic-typography`:
+     - Upgraded `components/v2/KineticName.tsx` to use word-level masking (`overflow: hidden`) and staggered `translateY(115% -> 0%)` entrance with cubic-bezier `[0.16, 1, 0.3, 1]` ease-out. Each character supports micro-interaction hover lift with distinct frequency audio feedback.
+  3. `/svg-animation`:
+     - Re-engineered `components/interactive/ProjectSchematics.tsx` across all 4 authentic project diagrams (DOZO, ViewProof, Swabhimaan-2, pjmb Auth) with native hardware-accelerated SVG `<animateMotion>` path streaming, animated sheen gradients, and glowing SVG filter nodes, operating at 60fps on the GPU compositor with 0 JS runtime overhead.
+  4. `/lottie-animation`:
+     - Installed `@lottiefiles/dotlottie-web` and authored `public/lottie/telemetry-radar.json` (Bodymovin vector radar animation).
+     - Built `components/interactive/LottieStatusIndicator.tsx` using dynamic import, canvas rendering, `IntersectionObserver` auto-pause when off-screen, and strict `prefers-reduced-motion` detection. Integrated into `Hero.tsx` availability badge and `Footer.tsx` status display.
+  5. `/gsap-react`, `/gsap-timeline`, & `/gsap-core`:
+     - Choreographed `components/sections/Hero.tsx` using `@gsap/react` `useGSAP` with container ref scope and clean timeline sequencing using position parameters (`"<"`, `"-=0.2"`).
+     - Applied `clearProps: "all"` across all timeline tweens so DOM elements never retain inline style locks and all elements remain 100% visible and accessible.
+  6. Accessibility & Invariants:
+     - 100% card visibility in Selected Works preserved.
+     - WCAG AAA contrast maintained.
+     - Reduced motion supported across all SVG, GSAP, and Lottie layers.
+- Files Created/Modified:
+  - components/interactive/LogoMark.tsx (Created)
+  - components/interactive/LottieStatusIndicator.tsx (Created)
+  - public/lottie/telemetry-radar.json (Created)
+  - components/sections/Nav.tsx (Modified)
+  - components/sections/Hero.tsx (Modified)
+  - components/sections/Footer.tsx (Modified)
+  - components/v2/KineticName.tsx (Modified)
+  - components/interactive/ProjectSchematics.tsx (Modified)
+  - app/globals.css (Modified)
+  - package.json & package-lock.json (Modified)
+- Automated Verification:
+  - npx tsc --noEmit: Passed with code 0 (0 type errors).
+  - npm run lint: Passed with code 0 (0 errors, 0 warnings).
+  - npm run build (next build --webpack): Compiled in 27.7s, all 7 static pages emitted in 3.1s with 0 errors.
+--------------------------------------------------
